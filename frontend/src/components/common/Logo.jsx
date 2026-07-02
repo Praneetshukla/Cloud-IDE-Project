@@ -21,9 +21,9 @@ const Logo = ({ size = 'md', showText = true, className = '' }) => {
       <div
         className={cn(
           s.icon,
-          'rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600',
+          'rounded-xl bg-gradient-to-br from-cyan-400 to-fuchsia-600',
           'flex items-center justify-center',
-          'shadow-lg shadow-indigo-500/25 group-hover:shadow-indigo-500/40',
+          'shadow-lg shadow-cyan-500/25 group-hover:shadow-cyan-500/40',
           'transition-all duration-300 group-hover:scale-105'
         )}
       >

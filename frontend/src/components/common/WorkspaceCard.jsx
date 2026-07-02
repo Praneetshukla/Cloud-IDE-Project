@@ -38,12 +38,18 @@ const WorkspaceCard = ({ workspace }) => {
   return (
     <>
       <div 
-        className="group relative bg-[var(--color-bg-card)] border border-[var(--color-border)] rounded-xl p-5 hover:shadow-lg hover:border-indigo-500/30 transition-all duration-300 cursor-pointer"
+        className="group relative bg-surface/30 backdrop-blur-md border border-white/5 rounded-xl p-5 hover:border-cyan-500/30 hover:shadow-hologram hover:-translate-y-1 transition-all duration-300 cursor-pointer overflow-hidden"
         onClick={navigateToWorkspace}
       >
-        <div className="flex justify-between items-start mb-4">
+        {/* Center Spotlight radial glow */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(8,145,178,0.08)_0%,transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-0"></div>
+
+        {/* Top laser line accent */}
+        <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+        <div className="flex justify-between items-start mb-4 relative z-10">
           <div className={cn(
-            "w-12 h-12 rounded-xl flex items-center justify-center text-white shadow-lg",
+            "w-12 h-12 rounded-xl flex items-center justify-center text-white shadow-lg bg-gradient-to-br",
             workspace.color || "from-indigo-500 to-purple-600"
           )}>
              <HiOutlineCube className="h-6 w-6" />
@@ -52,20 +58,20 @@ const WorkspaceCard = ({ workspace }) => {
           <div className="relative" ref={menuRef}>
             <button 
               onClick={(e) => { e.stopPropagation(); setMenuOpen(!menuOpen); }}
-              className="text-[var(--color-text-tertiary)] hover:text-[var(--color-text-primary)] p-1 rounded-md hover:bg-[var(--color-bg-tertiary)] transition-colors cursor-pointer"
+              className="text-[var(--color-text-tertiary)] hover:text-[var(--color-text-primary)] p-1 rounded-md hover:bg-white/[0.05] transition-colors cursor-pointer"
             >
               <HiOutlineDotsVertical className="h-5 w-5" />
             </button>
 
             {menuOpen && (
-              <div className="absolute right-0 mt-2 w-48 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-card)] shadow-xl z-10 animate-scale-in origin-top-right py-1">
+              <div className="absolute right-0 mt-2 w-48 rounded-xl border border-white/5 bg-surface/90 backdrop-blur-xl shadow-xl z-20 animate-scale-in origin-top-right py-1">
                 <button
                   onClick={(e) => { e.stopPropagation(); setMenuOpen(false); setIsEditModalOpen(true); }}
-                  className="w-full flex items-center gap-2.5 px-4 py-2 text-sm text-[var(--color-text-secondary)] hover:bg-[var(--color-bg-tertiary)] hover:text-[var(--color-text-primary)] transition-colors cursor-pointer"
+                  className="w-full flex items-center gap-2.5 px-4 py-2 text-sm text-[var(--color-text-secondary)] hover:bg-white/[0.05] hover:text-[var(--color-text-primary)] transition-colors cursor-pointer"
                 >
                   <HiOutlinePencil className="h-4 w-4" /> Edit Workspace
                 </button>
-                <div className="border-t border-[var(--color-border)] my-1"></div>
+                <div className="border-t border-white/5 my-1"></div>
                 <button
                   onClick={(e) => { e.stopPropagation(); setMenuOpen(false); handleDelete(); }}
                   className="w-full flex items-center gap-2.5 px-4 py-2 text-sm text-red-400 hover:bg-red-500/10 transition-colors cursor-pointer"
@@ -77,7 +83,7 @@ const WorkspaceCard = ({ workspace }) => {
           </div>
         </div>
 
-        <div className="block">
+        <div className="block relative z-10">
           <h3 className="text-lg font-semibold text-[var(--color-text-primary)] group-hover:text-indigo-400 transition-colors truncate">
             {workspace.name}
           </h3>
@@ -86,7 +92,7 @@ const WorkspaceCard = ({ workspace }) => {
           </p>
         </div>
 
-        <div className="mt-5 pt-4 border-t border-[var(--color-border)] flex items-center justify-between text-xs text-[var(--color-text-tertiary)]">
+        <div className="mt-5 pt-4 border-t border-white/5 flex items-center justify-between text-xs text-[var(--color-text-tertiary)] relative z-10">
           <div className="flex items-center gap-1.5">
             <HiOutlineUsers className="h-4 w-4" />
             <span>{workspace.members?.length || 1} members</span>

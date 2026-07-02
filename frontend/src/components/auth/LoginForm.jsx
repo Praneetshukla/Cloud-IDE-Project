@@ -1,27 +1,21 @@
-import { useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { HiOutlineMail, HiOutlineLockClosed } from 'react-icons/hi';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
 import useForm from '../../hooks/useForm';
 import { validateLoginForm } from '../../utils/validators';
-import Input from '../common/Input';
-import Button from '../common/Button';
+import { OrbitSurface } from './OrbitSurface';
+import { OrbitInput } from './OrbitInput';
+import { OrbitButton } from './OrbitButton';
+import { OrbitOAuth } from './OrbitOAuth';
 import Alert from '../common/Alert';
-import Divider from '../common/Divider';
-import OAuthButtons from './OAuthButtons';
 
-/**
- * Login form with email/password, OAuth, and forgot password link.
- */
 const LoginForm = () => {
   const navigate = useNavigate();
   const { login, isLoading, error, isAuthenticated, clearError } = useAuth();
+  const [rememberMe, setRememberMe] = useState(true);
 
   const { values, errors, touched, handleChange, handleBlur, validate } =
-    useForm(
-      { email: '', password: '' },
-      validateLoginForm
-    );
+    useForm({ email: '', password: '' }, validateLoginForm);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -40,84 +34,102 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="w-full max-w-md animate-fade-in-up">
+    <OrbitSurface className="p-4 sm:p-6 md:p-8">
+      {/* Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-[var(--color-text-primary)] mb-2">
+        <h2 className="text-2xl md:text-[32px] font-semibold text-text-primary tracking-tight leading-tight mb-2">
           Welcome back
-        </h1>
-        <p className="text-[var(--color-text-secondary)]">
-          Sign in to your Orbit workspace
+        </h2>
+        <p className="text-sm md:text-[17px] text-text-secondary font-medium">
+          Sign in to your Orbit workspace.
         </p>
       </div>
 
       {error && (
-        <Alert type="error" message={error} onClose={clearError} className="mb-5" />
+        <Alert type="error" message={error} onClose={clearError} className="mb-6" />
       )}
 
-      <OAuthButtons />
-
-      <Divider />
-
-      <form onSubmit={handleSubmit} className="space-y-4" noValidate>
-        <Input
-          label="Email"
+      {/* Form */}
+      <form className="flex flex-col gap-6" onSubmit={handleSubmit} noValidate>
+        <OrbitInput
+          id="email"
           name="email"
           type="email"
+          label="Email address"
+          placeholder="name@company.com"
           value={values.email}
           onChange={handleChange}
           onBlur={handleBlur}
-          placeholder="you@example.com"
-          error={errors.email}
-          touched={touched.email}
-          icon={HiOutlineMail}
+          error={touched.email && errors.email}
           autoComplete="email"
           required
         />
-
-        <Input
-          label="Password"
-          name="password"
-          type="password"
-          value={values.password}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          placeholder="Enter your password"
-          error={errors.password}
-          touched={touched.password}
-          icon={HiOutlineLockClosed}
-          autoComplete="current-password"
-          required
-        />
-
-        <div className="flex items-center justify-end">
-          <Link
-            to="/forgot-password"
-            className="text-sm text-indigo-500 hover:text-indigo-400 transition-colors"
-          >
-            Forgot password?
-          </Link>
+        
+        <div className="flex flex-col gap-4">
+          <div className="flex justify-between items-center">
+            <label htmlFor="password" className="text-label font-medium text-text-secondary">
+              Password
+            </label>
+            <Link to="/forgot-password" className="text-label text-text-secondary hover:text-text-primary transition-colors duration-fast">
+              Forgot password?
+            </Link>
+          </div>
+          <OrbitInput
+            id="password"
+            name="password"
+            type="password"
+            placeholder="••••••••••••"
+            value={values.password}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={touched.password && errors.password}
+            autoComplete="current-password"
+            required
+          />
         </div>
 
-        <Button
-          type="submit"
-          fullWidth
-          size="lg"
-          isLoading={isLoading}
-        >
-          Sign In
-        </Button>
+        <div className="flex items-center gap-3 group py-2">
+          <div className="relative flex items-center justify-center">
+            <input 
+              id="remember-me"
+              type="checkbox" 
+              className="peer appearance-none w-4 h-4 rounded-[4px] bg-background border border-border checked:bg-accent checked:border-accent transition-all duration-fast focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-surface cursor-pointer"
+              checked={rememberMe}
+              onChange={(e) => setRememberMe(!rememberMe)}
+            />
+            <svg className="absolute pointer-events-none text-white w-3 h-3 opacity-0 peer-checked:opacity-100 transition-opacity duration-fast" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+          </div>
+          <label htmlFor="remember-me" className="text-label font-medium text-text-secondary group-hover:text-text-primary transition-colors duration-fast cursor-pointer select-none">
+            Remember me
+          </label>
+        </div>
+
+        <OrbitButton type="submit" disabled={isLoading}>
+          {isLoading ? 'Signing In...' : 'Sign In'}
+        </OrbitButton>
       </form>
 
-      <p className="mt-6 text-center text-sm text-[var(--color-text-secondary)]">
-        Don&apos;t have an account?{' '}
-        <Link
-          to="/signup"
-          className="font-semibold text-indigo-500 hover:text-indigo-400 transition-colors"
-        >
-          Create one
-        </Link>
-      </p>
-    </div>
+      {/* Divider */}
+      <div className="flex items-center gap-4 my-8">
+        <div className="h-[1px] flex-1 bg-gradient-to-r from-transparent to-border"></div>
+        <span className="text-label text-text-secondary font-medium select-none whitespace-nowrap">or continue with</span>
+        <div className="h-[1px] flex-1 bg-gradient-to-r from-border to-transparent"></div>
+      </div>
+
+      <OrbitOAuth />
+
+      {/* Footer */}
+      <div className="mt-8 pt-6 border-t border-border/50 text-center">
+        <p className="text-[13px] text-text-secondary font-medium">
+          Don't have an account?{' '}
+          <Link to="/signup" className="text-text-primary hover:text-accent transition-colors duration-fast">
+            Create account
+          </Link>
+        </p>
+      </div>
+    </OrbitSurface>
   );
 };
 

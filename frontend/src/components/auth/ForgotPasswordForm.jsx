@@ -1,11 +1,12 @@
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { HiOutlineMail, HiArrowLeft } from 'react-icons/hi';
+import { HiArrowLeft } from 'react-icons/hi';
 import useAuth from '../../hooks/useAuth';
 import useForm from '../../hooks/useForm';
 import { validateEmail } from '../../utils/validators';
-import Input from '../common/Input';
-import Button from '../common/Button';
+import { OrbitSurface } from './OrbitSurface';
+import { OrbitInput } from './OrbitInput';
+import { OrbitButton } from './OrbitButton';
 import Alert from '../common/Alert';
 
 /**
@@ -36,58 +37,51 @@ const ForgotPasswordForm = () => {
   };
 
   return (
-    <div className="w-full max-w-md animate-fade-in-up">
+    <OrbitSurface className="p-16 sm:p-24 md:p-32">
       <Link
         to="/login"
-        className="inline-flex items-center gap-1.5 text-sm text-[var(--color-text-secondary)]
-          hover:text-[var(--color-text-primary)] transition-colors mb-8"
+        className="inline-flex items-center gap-8 text-label text-text-secondary hover:text-text-primary transition-colors duration-fast mb-24 cursor-pointer"
       >
-        <HiArrowLeft className="h-4 w-4" />
+        <HiArrowLeft className="h-16 w-16" />
         Back to login
       </Link>
 
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-[var(--color-text-primary)] mb-2">
+      <div className="mb-32">
+        <h2 className="text-2xl md:text-[32px] font-semibold text-text-primary tracking-tight leading-tight mb-8">
           Forgot password?
-        </h1>
-        <p className="text-[var(--color-text-secondary)]">
-          Enter your email and we&apos;ll send you a reset link.
+        </h2>
+        <p className="text-sm md:text-[17px] text-text-secondary font-medium">
+          Enter your email and we'll send you a reset link.
         </p>
       </div>
 
       {error && (
-        <Alert type="error" message={error} onClose={clearError} className="mb-5" />
+        <Alert type="error" message={error} onClose={clearError} className="mb-24" />
       )}
       {message && (
-        <Alert type="success" message={message} onClose={clearMessage} className="mb-5" />
+        <Alert type="success" message={message} onClose={clearMessage} className="mb-24" />
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-4" noValidate>
-        <Input
-          label="Email"
+      <form onSubmit={handleSubmit} className="flex flex-col gap-24" noValidate>
+        <OrbitInput
+          id="email"
           name="email"
           type="email"
+          label="Email address"
+          placeholder="name@company.com"
           value={values.email}
           onChange={handleChange}
           onBlur={handleBlur}
-          placeholder="you@example.com"
-          error={errors.email}
-          touched={touched.email}
-          icon={HiOutlineMail}
+          error={touched.email && errors.email}
           autoComplete="email"
           required
         />
 
-        <Button
-          type="submit"
-          fullWidth
-          size="lg"
-          isLoading={isLoading}
-        >
-          Send Reset Link
-        </Button>
+        <OrbitButton type="submit" disabled={isLoading}>
+          {isLoading ? 'Sending Reset Link...' : 'Send Reset Link'}
+        </OrbitButton>
       </form>
-    </div>
+    </OrbitSurface>
   );
 };
 

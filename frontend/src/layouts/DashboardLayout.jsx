@@ -34,7 +34,35 @@ const DashboardLayout = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[var(--color-bg-primary)] flex overflow-hidden">
+    <div className="min-h-screen bg-transparent flex overflow-hidden relative z-0">
+      {/* Cinematic Grain Overlay */}
+      <div className="bg-grain"></div>
+      
+      {/* ─── Architectural Lighting & Background Mesh ─── */}
+      <div className="absolute inset-0 z-background pointer-events-none overflow-hidden">
+        {/* 4-Point Nebula (Teal & Magenta palette) */}
+        <div className="absolute top-[-25%] left-[-15%] w-[80%] h-[80%] rounded-full bg-cyan-600 opacity-[0.06] blur-[130px] animate-drift-left"></div>
+        <div className="absolute bottom-[-25%] right-[-15%] w-[80%] h-[80%] rounded-full bg-fuchsia-600 opacity-[0.05] blur-[130px] animate-drift-right"></div>
+        <div className="absolute top-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-teal-500 opacity-[0.04] blur-[120px] animate-drift-left"></div>
+        <div className="absolute bottom-[-10%] left-[-10%] w-[60%] h-[60%] rounded-full bg-purple-600 opacity-[0.03] blur-[120px] animate-drift-right"></div>
+
+        {/* Glowing Gas Giant Planetary Ring */}
+        <div className="absolute bottom-[-45%] left-[-15%] w-[900px] h-[900px] rounded-full border border-cyan-500/10 bg-gradient-to-tr from-cyan-500/5 via-fuchsia-500/3 to-transparent blur-[80px] animate-pulse-node"></div>
+
+        {/* Floating cosmic dust particles */}
+        <div className="absolute top-[25%] left-[20%] w-[3px] h-[3px] rounded-full bg-white opacity-20 shadow-[0_0_6px_white]"></div>
+        <div className="absolute top-[65%] left-[15%] w-[2px] h-[2px] rounded-full bg-white opacity-10 shadow-[0_0_4px_white]"></div>
+        <div className="absolute top-[45%] right-[25%] w-[4px] h-[4px] rounded-full bg-white opacity-20 shadow-[0_0_8px_white]"></div>
+
+        {/* Subtle scrolling mesh background */}
+        <div 
+          className="absolute inset-0 opacity-[0.01] animate-grid-pan"
+          style={{
+            backgroundImage: `radial-gradient(circle at 2px 2px, white 1px, transparent 0)`,
+            backgroundSize: `48px 48px`
+          }}
+        ></div>
+      </div>
       
       {/* ─── Desktop Sidebar ───────────────────────────────────── */}
       <Sidebar />
@@ -68,7 +96,7 @@ const DashboardLayout = () => {
       {/* ─── Main Content Area ─────────────────────────────────── */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         {/* ─── Navbar ──────────────────────────────────────────── */}
-        <nav className="sticky top-0 z-40 h-14 border-b border-[var(--color-border)] bg-[var(--color-bg-secondary)]/80 backdrop-blur-lg flex-shrink-0">
+        <nav className="sticky top-0 z-40 h-14 border-b border-white/5 bg-surface/30 backdrop-blur-xl flex-shrink-0">
           <div className="h-full px-4 sm:px-6 flex items-center justify-between">
             
             {/* Left: Mobile Menu Toggle & Search */}
@@ -89,7 +117,7 @@ const DashboardLayout = () => {
                   placeholder="Search projects, files, workspaces..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="block w-full pl-10 pr-3 py-1.5 border border-[var(--color-border)] rounded-lg leading-5 bg-[var(--color-bg-input)] text-[var(--color-text-primary)] placeholder:text-[var(--color-text-tertiary)] focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 sm:text-sm transition-all duration-200"
+                  className="block w-full pl-10 pr-3 py-1.5 border border-white/5 rounded-lg leading-5 bg-background/50 hover:bg-white/[0.01] text-[var(--color-text-primary)] placeholder:text-[var(--color-text-tertiary)] focus:outline-none focus:border-accent/80 focus:ring-4 focus:ring-accent/15 sm:text-sm transition-all duration-200"
                 />
               </form>
             </div>

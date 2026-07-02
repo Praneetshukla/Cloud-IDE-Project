@@ -19,9 +19,9 @@ const Sidebar = () => {
   const sidebarOpen = useSelector((state) => state.ui.sidebarOpen);
 
   const navItems = [
-    { icon: HiOutlineHome, label: 'Dashboard', path: '/dashboard' },
-    { icon: HiOutlineViewGrid, label: 'Workspaces', path: '/dashboard' },
-    { icon: HiOutlineCollection, label: 'Projects', path: '/dashboard' },
+    { icon: HiOutlineHome, label: 'Dashboard', path: '/dashboard', exact: true },
+    { icon: HiOutlineViewGrid, label: 'Workspaces', path: '/dashboard#workspaces', hash: '#workspaces' },
+    { icon: HiOutlineCollection, label: 'Projects', path: '/dashboard#projects', hash: '#projects' },
   ];
 
   const bottomItems = [
@@ -30,23 +30,31 @@ const Sidebar = () => {
 
   const renderNavItems = (items) => {
     return items.map((item) => {
-      const isActive = location.pathname.startsWith(item.path);
+      const isActive = item.hash 
+        ? location.pathname === '/dashboard' && location.hash === item.hash
+        : item.exact
+          ? location.pathname === item.path && !location.hash
+          : location.pathname.startsWith(item.path);
       return (
         <Link
           key={item.label}
           to={item.path}
           className={cn(
-            'flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 group relative',
+            'flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 group relative cursor-pointer border',
             isActive
-              ? 'bg-indigo-500/10 text-indigo-500 font-medium'
-              : 'text-[var(--color-text-secondary)] hover:bg-[var(--color-bg-tertiary)] hover:text-[var(--color-text-primary)]'
+              ? 'bg-cyan-500/10 text-cyan-400 font-medium border-cyan-500/20 shadow-[0_0_15px_rgba(8,145,178,0.05)]'
+              : 'text-[var(--color-text-secondary)] hover:bg-white/[0.02] hover:text-[var(--color-text-primary)] border-transparent'
           )}
           title={!sidebarOpen ? item.label : undefined}
         >
+          {/* Glowing Vertical Lightbar */}
+          {isActive && (
+            <span className="absolute left-0 top-[20%] bottom-[20%] w-[3px] rounded-r bg-cyan-400 shadow-[0_0_8px_rgba(34,211,238,0.8)]"></span>
+          )}
           <item.icon
             className={cn(
               'h-5 w-5 flex-shrink-0 transition-colors',
-              isActive ? 'text-indigo-500' : 'text-[var(--color-text-tertiary)] group-hover:text-[var(--color-text-secondary)]'
+              isActive ? 'text-cyan-400' : 'text-[var(--color-text-tertiary)] group-hover:text-[var(--color-text-secondary)]'
             )}
           />
           {sidebarOpen && (
@@ -61,12 +69,12 @@ const Sidebar = () => {
 
   return (
     <aside
+      style={{ width: sidebarOpen ? '256px' : '80px' }}
       className={cn(
-        'hidden lg:flex flex-col border-r border-[var(--color-border)] bg-[var(--color-bg-secondary)] transition-all duration-300 relative z-30',
-        sidebarOpen ? 'w-64' : 'w-20'
+        'hidden lg:flex flex-col border-r border-white/5 bg-surface/40 backdrop-blur-2xl transition-all duration-300 relative z-30'
       )}
     >
-      <div className="h-14 flex items-center justify-between px-4 border-b border-[var(--color-border)]">
+      <div className="h-14 flex items-center justify-between px-4 border-b border-white/5">
         {sidebarOpen ? (
           <Logo size="sm" />
         ) : (
@@ -84,7 +92,7 @@ const Sidebar = () => {
         </div>
       </div>
 
-      <div className="p-3 border-t border-[var(--color-border)] flex justify-center">
+      <div className="p-3 border-t border-white/5 flex justify-center">
         <button
           onClick={() => dispatch(toggleSidebar())}
           className="p-2 rounded-lg text-[var(--color-text-tertiary)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-bg-tertiary)] transition-colors w-full flex justify-center cursor-pointer"

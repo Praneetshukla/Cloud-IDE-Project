@@ -208,7 +208,7 @@ const EditorPage = () => {
 
         {/* Editor Content Area */}
         <div className="flex-1 relative flex items-center justify-center bg-[var(--color-bg-primary)] min-h-0">
-          {isLoading && !folders.length && !files.length ? (
+          {fsLoading && !folders.length && !files.length ? (
             <LoadingSpinner />
           ) : activeFileId ? (
             <CodeEditor />

@@ -18,11 +18,17 @@ const getLanguageIcon = (language) => {
 
 const ProjectCard = ({ project }) => {
   return (
-    <div className="group flex flex-col bg-[var(--color-bg-card)] border border-[var(--color-border)] rounded-xl overflow-hidden hover:shadow-lg hover:border-indigo-500/30 transition-all duration-300">
+    <div className="group relative flex flex-col bg-surface/30 backdrop-blur-md border border-white/5 rounded-xl overflow-hidden hover:border-cyan-500/30 hover:shadow-hologram hover:-translate-y-1 transition-all duration-300">
       
-      <div className="p-4 flex-1">
+      {/* Center Spotlight radial glow */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(8,145,178,0.08)_0%,transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-0"></div>
+
+      {/* Top laser line accent */}
+      <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+      <div className="p-4 flex-1 relative z-10">
         <div className="flex justify-between items-start mb-3">
-          <div className="p-2 rounded-lg bg-[var(--color-bg-tertiary)] border border-[var(--color-border)]">
+          <div className="p-2 rounded-lg bg-white/[0.02] border border-white/5 group-hover:border-indigo-500/20 transition-all duration-300">
             {getLanguageIcon(project.language)}
           </div>
           <div className="flex items-center gap-1">
@@ -45,7 +51,7 @@ const ProjectCard = ({ project }) => {
         </Link>
       </div>
 
-      <div className="px-4 py-3 bg-[var(--color-bg-secondary)] border-t border-[var(--color-border)] flex items-center justify-between text-xs text-[var(--color-text-tertiary)]">
+      <div className="px-4 py-3 bg-white/[0.01] border-t border-white/5 flex items-center justify-between text-xs text-[var(--color-text-tertiary)] relative z-10">
         <div className="flex items-center gap-1.5">
           <HiOutlineClock className="h-3.5 w-3.5" />
           <span>{formatDate(project.lastAccessed)}</span>

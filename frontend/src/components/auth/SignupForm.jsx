@@ -1,14 +1,13 @@
 import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { HiOutlineUser, HiOutlineMail, HiOutlineLockClosed } from 'react-icons/hi';
 import useAuth from '../../hooks/useAuth';
 import useForm from '../../hooks/useForm';
 import { validateSignupForm } from '../../utils/validators';
-import Input from '../common/Input';
-import Button from '../common/Button';
+import { OrbitSurface } from './OrbitSurface';
+import { OrbitInput } from './OrbitInput';
+import { OrbitButton } from './OrbitButton';
+import { OrbitOAuth } from './OrbitOAuth';
 import Alert from '../common/Alert';
-import Divider from '../common/Divider';
-import OAuthButtons from './OAuthButtons';
 
 /**
  * Signup form with name, email, password, confirm password, OAuth, and validation.
@@ -40,107 +39,103 @@ const SignupForm = () => {
   };
 
   return (
-    <div className="w-full max-w-md animate-fade-in-up">
+    <OrbitSurface className="p-4 sm:p-6 md:p-8">
+      {/* Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-[var(--color-text-primary)] mb-2">
-          Create your account
-        </h1>
-        <p className="text-[var(--color-text-secondary)]">
-          Start building in the cloud with Orbit
+        <h2 className="text-2xl md:text-[32px] font-semibold text-text-primary tracking-tight leading-tight mb-2">
+          Create account
+        </h2>
+        <p className="text-sm md:text-[17px] text-text-secondary font-medium">
+          Start building in the cloud with Orbit.
         </p>
       </div>
 
       {error && (
-        <Alert type="error" message={error} onClose={clearError} className="mb-5" />
+        <Alert type="error" message={error} onClose={clearError} className="mb-6" />
       )}
 
-      <OAuthButtons />
-
-      <Divider />
-
-      <form onSubmit={handleSubmit} className="space-y-4" noValidate>
-        <Input
-          label="Full Name"
+      {/* Form */}
+      <form className="flex flex-col gap-6" onSubmit={handleSubmit} noValidate>
+        <OrbitInput
+          id="name"
           name="name"
           type="text"
+          label="Full Name"
+          placeholder="John Doe"
           value={values.name}
           onChange={handleChange}
           onBlur={handleBlur}
-          placeholder="John Doe"
-          error={errors.name}
-          touched={touched.name}
-          icon={HiOutlineUser}
+          error={touched.name && errors.name}
           autoComplete="name"
           required
         />
 
-        <Input
-          label="Email"
+        <OrbitInput
+          id="email"
           name="email"
           type="email"
+          label="Email address"
+          placeholder="you@example.com"
           value={values.email}
           onChange={handleChange}
           onBlur={handleBlur}
-          placeholder="you@example.com"
-          error={errors.email}
-          touched={touched.email}
-          icon={HiOutlineMail}
+          error={touched.email && errors.email}
           autoComplete="email"
           required
         />
 
-        <Input
-          label="Password"
+        <OrbitInput
+          id="password"
           name="password"
           type="password"
+          label="Password"
+          placeholder="••••••••••••"
           value={values.password}
           onChange={handleChange}
           onBlur={handleBlur}
-          placeholder="Min. 8 characters"
-          error={errors.password}
-          touched={touched.password}
-          icon={HiOutlineLockClosed}
+          error={touched.password && errors.password}
           autoComplete="new-password"
           required
         />
 
-        <Input
-          label="Confirm Password"
+        <OrbitInput
+          id="confirmPassword"
           name="confirmPassword"
           type="password"
+          label="Confirm Password"
+          placeholder="••••••••••••"
           value={values.confirmPassword}
           onChange={handleChange}
           onBlur={handleBlur}
-          placeholder="Re-enter your password"
-          error={errors.confirmPassword}
-          touched={touched.confirmPassword}
-          icon={HiOutlineLockClosed}
+          error={touched.confirmPassword && errors.confirmPassword}
           autoComplete="new-password"
           required
         />
 
-        <div className="pt-1">
-          <Button
-            type="submit"
-            fullWidth
-            size="lg"
-            isLoading={isLoading}
-          >
-            Create Account
-          </Button>
-        </div>
+        <OrbitButton type="submit" disabled={isLoading}>
+          {isLoading ? 'Creating Account...' : 'Create Account'}
+        </OrbitButton>
       </form>
 
-      <p className="mt-6 text-center text-sm text-[var(--color-text-secondary)]">
-        Already have an account?{' '}
-        <Link
-          to="/login"
-          className="font-semibold text-indigo-500 hover:text-indigo-400 transition-colors"
-        >
-          Sign in
-        </Link>
-      </p>
-    </div>
+      {/* Divider */}
+      <div className="flex items-center gap-4 my-8">
+        <div className="h-[1px] flex-1 bg-gradient-to-r from-transparent to-border"></div>
+        <span className="text-label text-text-secondary font-medium select-none whitespace-nowrap">or continue with</span>
+        <div className="h-[1px] flex-1 bg-gradient-to-r from-border to-transparent"></div>
+      </div>
+
+      <OrbitOAuth />
+
+      {/* Footer */}
+      <div className="mt-8 pt-6 border-t border-border/50 text-center">
+        <p className="text-[13px] text-text-secondary font-medium font-medium">
+          Already have an account?{' '}
+          <Link to="/login" className="text-text-primary hover:text-accent transition-colors duration-fast font-semibold">
+            Sign in
+          </Link>
+        </p>
+      </div>
+    </OrbitSurface>
   );
 };
 
