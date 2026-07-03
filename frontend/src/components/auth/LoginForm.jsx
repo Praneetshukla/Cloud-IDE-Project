@@ -88,20 +88,20 @@ const LoginForm = () => {
           />
         </div>
 
-        <div className="flex items-center gap-3 group py-2">
-          <div className="relative flex items-center justify-center">
+        <div className="flex items-center group -ml-3">
+          <label className="relative flex items-center justify-center w-[44px] h-[44px] cursor-pointer">
             <input 
               id="remember-me"
               type="checkbox" 
-              className="peer appearance-none w-4 h-4 rounded-[4px] bg-background border border-border checked:bg-accent checked:border-accent transition-all duration-fast focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-surface cursor-pointer"
+              className="peer appearance-none w-4 h-4 rounded-[4px] bg-background border border-border checked:bg-accent checked:border-accent transition-all duration-fast focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-surface cursor-pointer m-0"
               checked={rememberMe}
               onChange={(e) => setRememberMe(!rememberMe)}
             />
             <svg className="absolute pointer-events-none text-white w-3 h-3 opacity-0 peer-checked:opacity-100 transition-opacity duration-fast" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
             </svg>
-          </div>
-          <label htmlFor="remember-me" className="text-label font-medium text-text-secondary group-hover:text-text-primary transition-colors duration-fast cursor-pointer select-none">
+          </label>
+          <label htmlFor="remember-me" className="text-label font-medium text-text-secondary group-hover:text-text-primary transition-colors duration-fast cursor-pointer select-none -ml-1">
             Remember me
           </label>
         </div>

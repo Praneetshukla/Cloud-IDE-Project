@@ -53,7 +53,7 @@ const DashboardPage = () => {
       {/* Welcome */}
       {!searchQuery && (
         <div className="mb-10 animate-fade-in-up">
-          <h1 className="text-3xl font-bold text-[var(--color-text-primary)]">
+          <h1 className="text-3xl font-bold gradient-text pb-1">
             Welcome back, {user?.name?.split(' ')[0] || 'Developer'}!
           </h1>
           <p className="text-[var(--color-text-secondary)] mt-1.5">
@@ -73,11 +73,11 @@ const DashboardPage = () => {
             <div className="animate-fade-in-up animation-delay-100">
               <h2 className="text-lg font-semibold text-[var(--color-text-primary)] mb-4">Quick Actions</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {quickActions.map((action) => (
+                {quickActions.map((action, idx) => (
                   <button 
                     key={action.title} 
                     onClick={action.onClick}
-                    className="group relative flex flex-col items-start p-5 rounded-xl border border-white/5 bg-surface/30 backdrop-blur-md hover:border-cyan-500/30 hover:shadow-hologram hover:-translate-y-1.5 transition-all duration-300 cursor-pointer text-left overflow-hidden"
+                    className={`group relative flex flex-col items-start p-5 rounded-xl border border-white/5 bg-surface/30 backdrop-blur-md hover-lift hover-glow transition-all duration-300 cursor-pointer text-left overflow-hidden animate-fade-in-up animation-delay-${(idx + 1) * 100}`}
                   >
                     {/* Top laser line on hover */}
                     <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>

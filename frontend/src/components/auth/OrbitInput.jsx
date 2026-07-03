@@ -20,7 +20,7 @@ export const OrbitInput = ({
       <input
         id={id}
         type={type}
-        className={`h-[46px] rounded-lg px-4 bg-background/50 hover:bg-white/[0.01] focus-visible:bg-white/[0.02] text-input text-text-primary border transition-all duration-fast shadow-neon-input ${error ? 'border-red-500 focus-visible:ring-red-500/20' : 'border-border focus-visible:border-accent/80 focus-visible:ring-4 focus-visible:ring-accent/15'} outline-none`}
+        className={`h-[46px] rounded-lg px-4 bg-[#010204]/80 hover:bg-[#010204] focus-visible:bg-[#010204] text-input text-text-primary border transition-all duration-fast shadow-[inset_0_2px_4px_rgba(0,0,0,0.5)] ${error ? 'border-red-500 focus-visible:ring-1 focus-visible:ring-red-500/50' : 'border-white/10 hover:border-white/20 focus-visible:border-accent focus-visible:ring-1 focus-visible:ring-accent/50'} outline-none`}
         {...props}
       />
       {error && (

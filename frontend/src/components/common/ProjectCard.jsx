@@ -18,7 +18,10 @@ const getLanguageIcon = (language) => {
 
 const ProjectCard = ({ project }) => {
   return (
-    <div className="group relative flex flex-col bg-surface/30 backdrop-blur-md border border-white/5 rounded-xl overflow-hidden hover:border-cyan-500/30 hover:shadow-hologram hover:-translate-y-1 transition-all duration-300">
+    <div 
+        className="group relative bg-surface/30 backdrop-blur-md border border-white/5 rounded-xl p-5 hover-lift hover-glow cursor-pointer overflow-hidden transition-all duration-300"
+        onClick={() => window.location.href = `/editor/${project._id}`}
+      >
       
       {/* Center Spotlight radial glow */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(8,145,178,0.08)_0%,transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-0"></div>

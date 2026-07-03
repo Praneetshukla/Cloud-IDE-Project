@@ -40,13 +40,13 @@
   --color-text-tertiary: #64748b;
   --color-text-inverse: #010204;
 
-  --color-border: rgba(8, 145, 178, 0.15);
-  --color-border-hover: rgba(8, 145, 178, 0.3);
-  --color-border-focus: #0891b2;
+  --color-border: rgba(60, 111, 219, 0.15);
+  --color-border-hover: rgba(60, 111, 219, 0.3);
+  --color-border-focus: #3C6FDB;
 
-  --color-primary: #0891b2;
-  --color-primary-hover: #06b6d4;
-  --color-primary-light: rgba(8, 145, 178, 0.2);
+  --color-primary: #3C6FDB;
+  --color-primary-hover: #4178F2;
+  --color-primary-light: rgba(60, 111, 219, 0.2);
   --color-danger: #ef4444;
   --color-success: #10b981;
   --color-warning: #f59e0b;
@@ -82,8 +82,8 @@
   --color-background: #010204;
   --color-surface: rgba(8, 15, 26, 0.6);
   --color-surface-elevated: rgba(12, 22, 38, 0.85);
-  --color-accent: #0891b2;
-  --color-focus-ring: rgba(8, 145, 178, 0.45);
+  --color-accent: #3C6FDB;
+  --color-focus-ring: rgba(60, 111, 219, 0.45);
 
   /* Radius */
   --radius-sm: 6px;
@@ -247,14 +247,14 @@
   .shadow-hologram {
     box-shadow: 
       0 24px 48px rgba(0, 0, 0, 0.7),
-      0 0 60px rgba(8, 145, 178, 0.12),
+      0 0 60px rgba(60, 111, 219, 0.12),
       0 0 120px rgba(217, 70, 239, 0.06);
   }
 
   .shadow-neon-input:focus-within {
     box-shadow: 
       inset 0 1px 3px rgba(0, 0, 0, 0.8),
-      0 0 12px rgba(8, 145, 178, 0.2);
+      0 0 12px rgba(60, 111, 219, 0.2);
   }
 
   .gradient-text {
@@ -309,10 +309,27 @@
   }
 
   .animation-delay-100 { animation-delay: 100ms; }
+  .animation-delay-150 { animation-delay: 150ms; }
   .animation-delay-200 { animation-delay: 200ms; }
+  .animation-delay-250 { animation-delay: 250ms; }
   .animation-delay-300 { animation-delay: 300ms; }
   .animation-delay-400 { animation-delay: 400ms; }
   .animation-delay-500 { animation-delay: 500ms; }
+
+  .hover-lift {
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+  }
+  .hover-lift:hover {
+    transform: translateY(-4px) scale(1.02);
+  }
+
+  .hover-glow {
+    transition: all 0.3s ease;
+  }
+  .hover-glow:hover {
+    box-shadow: 0 0 20px rgba(60, 111, 219, 0.4);
+    border-color: rgba(60, 111, 219, 0.8);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

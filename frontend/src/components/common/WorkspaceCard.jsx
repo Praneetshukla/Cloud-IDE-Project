@@ -38,7 +38,7 @@ const WorkspaceCard = ({ workspace }) => {
   return (
     <>
       <div 
-        className="group relative bg-surface/30 backdrop-blur-md border border-white/5 rounded-xl p-5 hover:border-cyan-500/30 hover:shadow-hologram hover:-translate-y-1 transition-all duration-300 cursor-pointer overflow-hidden"
+        className="group relative bg-surface/30 backdrop-blur-md border border-white/5 rounded-xl p-5 hover-lift hover-glow cursor-pointer overflow-hidden"
         onClick={navigateToWorkspace}
       >
         {/* Center Spotlight radial glow */}

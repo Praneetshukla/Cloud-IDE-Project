@@ -56,6 +56,7 @@ const EditorPage = () => {
 
   return (
     <div className="h-screen w-full flex overflow-hidden bg-[var(--color-bg-primary)] relative">
+      <div className="bg-grain"></div>
       <SettingsModal />
       
       {/* Activity Bar (Far Left) */}
