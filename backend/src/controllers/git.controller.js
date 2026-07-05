@@ -130,6 +130,14 @@ exports.revertToCommit = catchAsync(async (req, res, next) => {
   await repo.save();
   await repo.populate('commits.author', 'name email avatarUrl');
 
+  // Broadcast a 'project-reverted' event to all connected collaborators
+  const io = req.app.get('io');
+  if (io) {
+    // Exclude the sender by emitting to the room. Wait, doing io.to() sends to EVERYONE including the sender.
+    // The sender's SourceControl.jsx already reloads on its own, but an extra reload doesn't hurt.
+    io.to(projectId).emit('project-reverted');
+  }
+
   res.status(200).json({
     status: 'success',
     data: {

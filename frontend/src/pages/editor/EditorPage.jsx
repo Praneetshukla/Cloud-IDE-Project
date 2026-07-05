@@ -62,10 +62,20 @@ const EditorPage = () => {
       setActiveUsers(users);
     };
 
+    const handleProjectReverted = () => {
+      window.__isReverting = true;
+      toast('Project reverted by collaborator. Reloading...', { icon: '🔄' });
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500);
+    };
+
     socket.on('active-users', handleActiveUsers);
+    socket.on('project-reverted', handleProjectReverted);
 
     return () => {
       socket.off('active-users', handleActiveUsers);
+      socket.off('project-reverted', handleProjectReverted);
     };
   }, [socket, projectId, user]);
 
