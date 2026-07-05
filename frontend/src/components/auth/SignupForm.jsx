@@ -67,7 +67,7 @@ const SignupForm = () => {
           name="name"
           type="text"
           label="Full Name"
-          placeholder="John Doe"
+          placeholder="Your Name"
           value={values.name}
           onChange={handleChange}
           onBlur={handleBlur}

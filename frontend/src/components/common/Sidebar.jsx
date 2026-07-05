@@ -80,7 +80,7 @@ const Sidebar = () => {
     <aside
       style={{ width: sidebarOpen ? '256px' : '80px' }}
       className={cn(
-        'hidden lg:flex flex-col border border-white/10 bg-surface/20 backdrop-blur-3xl transition-all duration-300 relative z-30 rounded-2xl my-4 ml-4 shadow-[0_0_30px_rgba(6,182,212,0.1),inset_0_0_20px_rgba(255,255,255,0.02)]'
+        'hidden lg:flex flex-col border border-white/10 bg-surface/20 backdrop-blur-3xl transition-all duration-300 relative z-30 rounded-2xl my-4 ml-4 shadow-[0_0_30px_rgba(6,182,212,0.1),inset_0_0_20px_rgba(255,255,255,0.02)] h-[calc(100vh-32px)]'
       )}
     >
       <div className="h-14 flex items-center justify-between px-4 border-b border-white/5">
@@ -93,25 +93,28 @@ const Sidebar = () => {
         )}
       </div>
 
-      <div className="flex-1 overflow-y-auto py-4 px-3 space-y-1 flex flex-col">
+      <div className="flex-1 overflow-y-auto py-4 px-3 space-y-1">
         {renderNavItems(navItems)}
-        
-        <div className="mt-auto pt-4 space-y-1">
-          {renderNavItems(bottomItems)}
-        </div>
       </div>
 
-      <div className="p-3 border-t border-white/5 flex justify-center">
-        <button
-          onClick={() => dispatch(toggleSidebar())}
-          className="p-2 rounded-lg text-[var(--color-text-tertiary)] hover:text-cyan-400 hover:bg-cyan-500/10 transition-colors w-full flex justify-center cursor-pointer"
-        >
-          {sidebarOpen ? (
-            <HiOutlineChevronDoubleLeft className="h-5 w-5" />
-          ) : (
-            <HiOutlineChevronDoubleRight className="h-5 w-5" />
-          )}
-        </button>
+      {/* Fixed Bottom Section */}
+      <div className="p-3 border-t border-white/5 bg-surface/30 backdrop-blur-md space-y-1">
+        <div className="space-y-1">
+          {renderNavItems(bottomItems)}
+        </div>
+        
+        <div className="pt-2 mt-2 border-t border-white/5 flex justify-center">
+          <button
+            onClick={() => dispatch(toggleSidebar())}
+            className="p-2 rounded-lg text-[var(--color-text-tertiary)] hover:text-cyan-400 hover:bg-cyan-500/10 transition-colors w-full flex justify-center cursor-pointer border border-transparent hover:border-cyan-500/20"
+          >
+            {sidebarOpen ? (
+              <HiOutlineChevronDoubleLeft className="h-5 w-5" />
+            ) : (
+              <HiOutlineChevronDoubleRight className="h-5 w-5" />
+            )}
+          </button>
+        </div>
       </div>
     </aside>
   );
