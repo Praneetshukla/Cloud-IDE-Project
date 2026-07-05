@@ -31,11 +31,17 @@ const startServer = async () => {
         methods: ['GET', 'POST'],
         credentials: true,
       },
+      destroyUpgrade: false,
     });
 
-    // Socket.io connection handler (placeholder for future phases)
+    const registerEditorHandlers = require('./socket/editorHandler');
+
+    // Socket.io connection handler
     io.on('connection', (socket) => {
       console.log(`🔌 Socket connected: ${socket.id}`);
+
+      // Register live collaboration events
+      registerEditorHandlers(io, socket);
 
       socket.on('disconnect', () => {
         console.log(`🔌 Socket disconnected: ${socket.id}`);
@@ -44,6 +50,29 @@ const startServer = async () => {
 
     // Make io accessible in routes/controllers if needed
     app.set('io', io);
+
+    // ─── Yjs WebSocket Server ───────────────────────────────────
+    const WebSocket = require('ws');
+    const { setupWSConnection } = require('y-websocket/bin/utils');
+
+    const wss = new WebSocket.Server({ noServer: true });
+    
+    server.on('upgrade', (request, socket, head) => {
+      console.log(`[HTTP Upgrade] Request URL: ${request.url}`);
+      // Yjs connections will use the /yjs path
+      if (request.url.startsWith('/yjs')) {
+        console.log(`[HTTP Upgrade] Routing to Yjs websocket server`);
+        wss.handleUpgrade(request, socket, head, (ws) => {
+          wss.emit('connection', ws, request);
+        });
+      }
+      // Note: socket.io handles its own upgrades natively because we passed 'server' to it.
+    });
+
+    wss.on('connection', (ws, req) => {
+      console.log(`📡 Yjs WebSocket connected: ${req.url}`);
+      setupWSConnection(ws, req);
+    });
 
     // Start server
     const PORT = process.env.PORT || 5000;

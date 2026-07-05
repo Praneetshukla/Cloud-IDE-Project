@@ -18,7 +18,7 @@ const catchAsync = require('../utils/catchAsync');
  */
 exports.executeFile = catchAsync(async (req, res, next) => {
   const { projectId } = req.params;
-  const { fileId } = req.body;
+  const { fileId, content } = req.body;
 
   if (!fileId) {
     return next(new AppError('File ID is required', 400));
@@ -52,8 +52,11 @@ exports.executeFile = catchAsync(async (req, res, next) => {
   const tempFileName = `orbit_exec_${Date.now()}_${file.name}`;
   const tempFilePath = path.join(tempDir, tempFileName);
 
+  // Use the provided content from the client (for real-time typing) or fallback to DB content
+  const codeToExecute = content !== undefined ? content : file.content;
+
   // Write content to temp file
-  await fs.writeFile(tempFilePath, file.content, 'utf8');
+  await fs.writeFile(tempFilePath, codeToExecute, 'utf8');
 
   let output = '';
   let execStatus = 'success';

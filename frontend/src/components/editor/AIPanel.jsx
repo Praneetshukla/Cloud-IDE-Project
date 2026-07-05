@@ -21,7 +21,7 @@ const AIPanel = ({ projectId }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!input.trim() || isTyping) return;
-    
+
     const message = input;
     setInput(''); // clear immediately for better UX
     await dispatch(sendMessage({ projectId, message }));
@@ -46,22 +46,20 @@ const AIPanel = ({ projectId }) => {
       <div className="flex-1 overflow-y-auto p-4 space-y-4 no-scrollbar">
         {messages.map((msg, index) => (
           <div key={index} className={`flex gap-3 ${msg.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
-            <div className={`shrink-0 h-7 w-7 rounded-full flex items-center justify-center ${
-              msg.role === 'user' ? 'bg-slate-700 text-white' : 'bg-indigo-600 text-white'
-            }`}>
+            <div className={`shrink-0 h-7 w-7 rounded-full flex items-center justify-center ${msg.role === 'user' ? 'bg-slate-700 text-white' : 'bg-indigo-600 text-white'
+              }`}>
               {msg.role === 'user' ? <HiOutlineUser className="h-4 w-4" /> : <HiOutlineSparkles className="h-4 w-4" />}
             </div>
-            
-            <div className={`text-sm px-3 py-2 rounded-xl max-w-[85%] break-words ${
-              msg.role === 'user' 
-                ? 'bg-slate-700 text-white rounded-tr-sm' 
+
+            <div className={`text-sm px-3 py-2 rounded-xl max-w-[85%] break-words ${msg.role === 'user'
+                ? 'bg-slate-700 text-white rounded-tr-sm'
                 : 'bg-indigo-600/20 text-indigo-100 border border-indigo-500/30 rounded-tl-sm'
-            }`}>
+              }`}>
               {msg.content}
             </div>
           </div>
         ))}
-        
+
         {isTyping && (
           <div className="flex gap-3 flex-row">
             <div className="shrink-0 h-7 w-7 rounded-full bg-indigo-600 text-white flex items-center justify-center">

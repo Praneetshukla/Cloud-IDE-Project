@@ -7,9 +7,9 @@ const getErrorMessage = (error) => {
 
 export const executeFile = createAsyncThunk(
   'terminal/executeFile',
-  async ({ projectId, fileId }, { rejectWithValue }) => {
+  async ({ projectId, fileId, content }, { rejectWithValue }) => {
     try {
-      const { data } = await terminalService.executeFile(projectId, fileId);
+      const { data } = await terminalService.executeFile(projectId, fileId, content);
       return data.data.session;
     } catch (error) {
       return rejectWithValue(getErrorMessage(error));

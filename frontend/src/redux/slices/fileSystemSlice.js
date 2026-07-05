@@ -66,6 +66,20 @@ export const createFile = createAsyncThunk(
   }
 );
 
+export const uploadFiles = createAsyncThunk(
+  'fileSystem/uploadFiles',
+  async (payload, { dispatch, rejectWithValue }) => {
+    try {
+      const { data } = await vfsService.createBatchFiles(payload);
+      // Refetch the tree so new folders and files appear instantly
+      await dispatch(fetchProjectTree(payload.project));
+      return data.data.files;
+    } catch (error) {
+      return rejectWithValue(getErrorMessage(error));
+    }
+  }
+);
+
 export const updateFile = createAsyncThunk(
   'fileSystem/updateFile',
   async ({ id, data }, { rejectWithValue }) => {

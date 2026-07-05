@@ -18,6 +18,7 @@ router.post('/:projectId/ai/chat', aiController.sendMessage);
 // Git Routes
 router.get('/:projectId/git', gitController.getRepository);
 router.post('/:projectId/git/commit', gitController.createCommit);
+router.post('/:projectId/git/revert/:commitId', gitController.revertToCommit);
 
 // Execute Code Route
 router.post('/:projectId/execute', executeController.executeFile);
@@ -26,10 +27,21 @@ router.post('/:projectId/execute', executeController.executeFile);
 router.get('/:projectId/tree', fileController.getProjectTree);
 
 router.get('/recent', projectController.getRecentProjects);
+router.get('/trash', projectController.getTrashedProjects);
+
+// Invite routes
+router.post('/invite/accept', projectController.acceptInvite);
+router.get('/:id/invite', projectController.generateInviteLink);
 
 router
   .route('/')
   .get(projectController.getProjects)
   .post(projectController.createProject);
+
+router.get('/:id', projectController.getProjectById);
+router.put('/:id/favorite', projectController.toggleFavorite);
+router.delete('/:id', projectController.deleteProject);
+router.put('/:id/restore', projectController.restoreProject);
+router.delete('/:id/hard', projectController.hardDeleteProject);
 
 module.exports = router;

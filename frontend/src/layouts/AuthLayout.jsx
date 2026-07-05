@@ -1,5 +1,5 @@
 import Logo from '../components/common/Logo';
-import ThemeToggle from '../components/common/ThemeToggle';
+
 
 /**
  * AuthLayout — Centered layout for auth pages with cosmic background.
@@ -40,7 +40,7 @@ const AuthLayout = ({ children }) => {
       {/* Top bar */}
       <div className="relative z-20 flex items-center justify-between p-6 w-full max-w-7xl mx-auto">
         <Logo size="md" />
-        <ThemeToggle />
+
       </div>
 
       {/* Centered Form Area */}

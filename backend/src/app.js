@@ -4,6 +4,7 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const passport = require('passport');
+const rateLimit = require('express-rate-limit');
 
 const routes = require('./routes');
 const globalErrorHandler = require('./middleware/error.middleware');
@@ -11,6 +12,12 @@ const { generalLimiter } = require('./middleware/rateLimiter.middleware');
 const configurePassport = require('./config/passport');
 const configureCloudinary = require('./config/cloudinary');
 const AppError = require('./utils/AppError');
+
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 1000, // Temporarily increased for testing (was 100)
+  message: 'Too many requests from this IP, please try again after 15 minutes',
+});
 
 /**
  * Express application factory.

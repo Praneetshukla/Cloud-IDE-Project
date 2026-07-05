@@ -1,24 +1,14 @@
 import ForgotPasswordForm from '../../components/auth/ForgotPasswordForm';
 import { OrbitIllustration } from '../../components/auth/OrbitIllustration';
+import { NeuralBackground } from '../../components/auth/NeuralBackground';
+import Logo from '../../components/common/Logo';
 
 const ForgotPasswordPage = () => {
   return (
     <div className="relative w-full min-h-screen bg-transparent text-text-primary selection:bg-accent/30 flex overflow-hidden z-0 animate-fade-in">
       
-      {/* ─── Architectural Lighting & Background Mesh ─── */}
-      <div className="absolute inset-0 z-background pointer-events-none overflow-hidden">
-        {/* Single subtle radial gradient for depth */}
-        <div className="absolute top-[-10%] left-[-10%] w-[70%] h-[70%] rounded-full bg-accent opacity-[0.03] blur-[100px]"></div>
-
-        {/* Subtle mesh background to break up pure black */}
-        <div 
-          className="absolute inset-0 opacity-[0.02]"
-          style={{
-            backgroundImage: `radial-gradient(circle at 2px 2px, rgba(255,255,255,0.15) 1px, transparent 0)`,
-            backgroundSize: `32px 32px`
-          }}
-        ></div>
-      </div>
+      {/* ─── Neural Network Background ─── */}
+      <NeuralBackground />
 
       {/* 42% Canvas (Hero/Brand Space) */}
       <div className="hidden lg:flex lg:w-[42%] relative border-r border-border items-center justify-center">
@@ -34,18 +24,13 @@ const ForgotPasswordPage = () => {
         <div className="relative w-full max-w-[500px] h-full py-12 px-12 xl:px-0 flex flex-col justify-center z-content">
           
           {/* Top: Logo */}
-          <div className="flex items-center gap-3 mb-12 2xl:mb-[80px]">
-            <div className="w-10 h-10 rounded-[12px] bg-accent flex items-center justify-center shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)]">
-              <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
-              </svg>
-            </div>
-            <span className="text-lg font-bold tracking-tight text-white">Orbit</span>
+          <div className="mb-12 2xl:mb-[80px]">
+            <Logo size="md" />
           </div>
           
           {/* Middle: Hero Typography */}
           <div className="flex flex-col">
-            <h1 className="text-3xl lg:text-4xl xl:text-[44px] font-bold text-white leading-[1.1] tracking-tight mb-8 2xl:mb-[40px] animate-fade-in-up">
+            <h1 className="text-3xl lg:text-4xl xl:text-[44px] font-bold leading-[1.1] tracking-tight mb-8 2xl:mb-[40px] animate-fade-in-up bg-clip-text text-transparent bg-gradient-to-br from-white via-white to-white/40 drop-shadow-sm">
               Build software<br />without<br />friction.
             </h1>
             <p className="text-base text-text-secondary font-medium leading-relaxed max-w-[460px] mb-10 2xl:mb-[48px] animate-fade-in-up animation-delay-100">

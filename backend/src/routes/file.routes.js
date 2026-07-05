@@ -10,6 +10,8 @@ router
   .route('/')
   .post(fileController.createFile);
 
+router.post('/batch', fileController.createBatchFiles);
+
 router
   .route('/:id')
   .get(fileController.getFile)

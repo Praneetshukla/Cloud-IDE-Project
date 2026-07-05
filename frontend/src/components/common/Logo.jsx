@@ -2,13 +2,13 @@ import { Link } from 'react-router-dom';
 import { cn } from '../../utils/helpers';
 
 /**
- * Orbit branding logo — SVG icon + text.
+ * Orbit branding logo — full image (icon + text).
  */
-const Logo = ({ size = 'md', showText = true, className = '' }) => {
+const Logo = ({ size = 'md', className = '' }) => {
   const sizes = {
-    sm: { icon: 'h-7 w-7', text: 'text-lg', iconInner: 'text-sm' },
-    md: { icon: 'h-9 w-9', text: 'text-xl', iconInner: 'text-base' },
-    lg: { icon: 'h-12 w-12', text: 'text-3xl', iconInner: 'text-xl' },
+    sm: { wrapper: 'h-9 mt-1.5 -ml-1' }, // Smaller and bumped down slightly to visually center with text
+    md: { wrapper: 'h-12 mt-1' },        // Balanced for Auth screens
+    lg: { wrapper: 'h-16 mt-2' },        // Balanced for 404 / large splash screens
   };
 
   const s = sizes[size];
@@ -16,29 +16,21 @@ const Logo = ({ size = 'md', showText = true, className = '' }) => {
   return (
     <Link
       to="/"
-      className={cn('flex items-center gap-2.5 group', className)}
+      className={cn('flex items-center group', className)}
     >
       <div
         className={cn(
-          s.icon,
-          'rounded-xl bg-gradient-to-br from-cyan-400 to-fuchsia-600',
-          'flex items-center justify-center',
-          'shadow-lg shadow-cyan-500/25 group-hover:shadow-cyan-500/40',
-          'transition-all duration-300 group-hover:scale-105'
+          s.wrapper,
+          'flex items-center transition-transform duration-300 group-hover:scale-105 overflow-visible'
         )}
       >
-        <span className={cn('text-white font-bold', s.iconInner)}>⟡</span>
+        <img 
+          src="/logo.png?v=final-crop-2" 
+          alt="Orbit Logo" 
+          className="h-full w-auto object-contain drop-shadow-md" 
+          style={{ imageRendering: '-webkit-optimize-contrast', transform: 'translateZ(0)' }} 
+        />
       </div>
-      {showText && (
-        <span
-          className={cn(
-            s.text,
-            'font-extrabold tracking-tight gradient-text'
-          )}
-        >
-          Orbit
-        </span>
-      )}
     </Link>
   );
 };

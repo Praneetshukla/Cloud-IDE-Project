@@ -24,7 +24,13 @@ const SignupForm = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate('/dashboard', { replace: true });
+      const redirectUrl = sessionStorage.getItem('redirectUrl');
+      if (redirectUrl) {
+        sessionStorage.removeItem('redirectUrl');
+        navigate(redirectUrl, { replace: true });
+      } else {
+        navigate('/dashboard', { replace: true });
+      }
     }
   }, [isAuthenticated, navigate]);
 

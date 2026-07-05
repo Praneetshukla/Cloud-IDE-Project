@@ -52,17 +52,17 @@ const ResetPasswordForm = () => {
   };
 
   return (
-    <OrbitSurface className="p-16 sm:p-24 md:p-32">
+    <OrbitSurface className="p-4 sm:p-6 md:p-8">
       <Link
         to="/login"
-        className="inline-flex items-center gap-8 text-label text-text-secondary hover:text-text-primary transition-colors duration-fast mb-24 cursor-pointer"
+        className="inline-flex items-center gap-2 text-label text-text-secondary hover:text-text-primary transition-colors duration-fast mb-6 cursor-pointer"
       >
-        <HiArrowLeft className="h-16 w-16" />
+        <HiArrowLeft className="h-4 w-4" />
         Back to login
       </Link>
 
-      <div className="mb-32">
-        <h2 className="text-2xl md:text-[32px] font-semibold text-text-primary tracking-tight leading-tight mb-8">
+      <div className="mb-8">
+        <h2 className="text-2xl md:text-[32px] font-semibold text-text-primary tracking-tight leading-tight mb-2">
           Set new password
         </h2>
         <p className="text-sm md:text-[17px] text-text-secondary font-medium">
@@ -71,18 +71,18 @@ const ResetPasswordForm = () => {
       </div>
 
       {error && (
-        <Alert type="error" message={error} onClose={clearError} className="mb-24" />
+        <Alert type="error" message={error} onClose={clearError} className="mb-6" />
       )}
       {message && (
         <Alert
           type="success"
           message={`${message} Redirecting to login...`}
-          className="mb-24"
+          className="mb-6"
         />
       )}
 
       {!message && (
-        <form onSubmit={handleSubmit} className="flex flex-col gap-24" noValidate>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-6" noValidate>
           <OrbitInput
             id="password"
             name="password"

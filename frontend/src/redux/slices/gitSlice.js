@@ -19,9 +19,21 @@ export const fetchRepository = createAsyncThunk(
 
 export const createCommit = createAsyncThunk(
   'git/createCommit',
-  async ({ projectId, message }, { rejectWithValue }) => {
+  async ({ projectId, message, filesData }, { rejectWithValue }) => {
     try {
-      const { data } = await gitService.createCommit(projectId, message);
+      const { data } = await gitService.createCommit(projectId, message, filesData);
+      return data.data.repository;
+    } catch (error) {
+      return rejectWithValue(getErrorMessage(error));
+    }
+  }
+);
+
+export const revertCommit = createAsyncThunk(
+  'git/revertCommit',
+  async ({ projectId, commitId }, { rejectWithValue }) => {
+    try {
+      const { data } = await gitService.revertCommit(projectId, commitId);
       return data.data.repository;
     } catch (error) {
       return rejectWithValue(getErrorMessage(error));
@@ -34,6 +46,7 @@ const initialState = {
   isLoading: false,
   isCommitting: false,
   error: null,
+  activeDiff: null,
 };
 
 const gitSlice = createSlice({
@@ -43,11 +56,18 @@ const gitSlice = createSlice({
     clearGitError: (state) => {
       state.error = null;
     },
+    setActiveDiff: (state, action) => {
+      state.activeDiff = action.payload;
+    },
+    clearActiveDiff: (state) => {
+      state.activeDiff = null;
+    },
     resetGit: (state) => {
       state.repository = null;
       state.isLoading = false;
       state.isCommitting = false;
       state.error = null;
+      state.activeDiff = null;
     }
   },
   extraReducers: (builder) => {
@@ -75,9 +95,21 @@ const gitSlice = createSlice({
       .addCase(createCommit.rejected, (state, action) => {
         state.isCommitting = false;
         state.error = action.payload;
+      })
+      .addCase(revertCommit.pending, (state) => {
+        state.isCommitting = true;
+        state.error = null;
+      })
+      .addCase(revertCommit.fulfilled, (state, action) => {
+        state.isCommitting = false;
+        state.repository = action.payload;
+      })
+      .addCase(revertCommit.rejected, (state, action) => {
+        state.isCommitting = false;
+        state.error = action.payload;
       });
   }
 });
 
-export const { clearGitError, resetGit } = gitSlice.actions;
+export const { clearGitError, resetGit, setActiveDiff, clearActiveDiff } = gitSlice.actions;
 export default gitSlice.reducer;

@@ -142,6 +142,7 @@ const authSlice = createSlice({
       })
       .addCase(signup.fulfilled, (state, action) => {
         state.isLoading = false;
+        state.isInitialized = true;
         state.user = action.payload.user;
         state.isAuthenticated = true;
         state.message = 'Account created! Please verify your email.';
@@ -158,6 +159,7 @@ const authSlice = createSlice({
       })
       .addCase(login.fulfilled, (state, action) => {
         state.isLoading = false;
+        state.isInitialized = true;
         state.user = action.payload.user;
         state.isAuthenticated = true;
       })

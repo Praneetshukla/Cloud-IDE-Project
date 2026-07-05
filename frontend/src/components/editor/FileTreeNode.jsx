@@ -12,7 +12,8 @@ const FileTreeNode = ({
   projectId, 
   folders, 
   files, 
-  onFileClick 
+  onFileClick,
+  activeUsers = []
 }) => {
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
@@ -120,8 +121,26 @@ const FileTreeNode = ({
           )}
         </div>
 
-        {/* Hover Actions */}
-        <div className="hidden group-hover:flex items-center gap-1">
+        {/* Presence Indicators & Actions */}
+        <div className="flex items-center gap-2">
+          {/* Active Users Viewing this File */}
+          {type === 'file' && (
+            <div className="flex items-center -space-x-1.5 mr-1">
+              {activeUsers.filter(u => u.activeFileId === item._id).map((u) => (
+                <div 
+                  key={u.socketId}
+                  className="w-4 h-4 rounded-full border border-[var(--color-bg-card)] flex items-center justify-center text-[8px] font-bold text-white shadow-sm"
+                  style={{ backgroundColor: u.color }}
+                  title={`${u.name} is viewing this file`}
+                >
+                  {u.name.charAt(0).toUpperCase()}
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Hover Actions */}
+          <div className="hidden group-hover:flex items-center gap-1">
           {type === 'folder' && (
             <>
               <button onClick={(e) => handleCreateNew('file', e)} className="p-0.5 text-slate-400 hover:text-white" title="New File">
@@ -140,8 +159,9 @@ const FileTreeNode = ({
           </button>
         </div>
       </div>
+    </div>
 
-      {/* Inline Create Input */}
+    {/* Inline Create Input */}
       {creatingType && (
         <div className="flex items-center gap-1.5 py-1 text-sm" style={{ paddingLeft: `${(level + 1) * 12 + 12}px`, paddingRight: '8px' }}>
           <FileIcon type={creatingType} name={newItemName || 'new'} isOpen={false} />
@@ -171,6 +191,7 @@ const FileTreeNode = ({
               folders={folders} 
               files={files} 
               onFileClick={onFileClick}
+              activeUsers={activeUsers}
             />
           ))}
           {/* Then Render Files */}
@@ -184,6 +205,7 @@ const FileTreeNode = ({
               folders={folders} 
               files={files} 
               onFileClick={onFileClick}
+              activeUsers={activeUsers}
             />
           ))}
         </div>

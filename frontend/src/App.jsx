@@ -23,6 +23,7 @@ import ProfilePage from './pages/profile/ProfilePage';
 import WorkspacePage from './pages/workspace/WorkspacePage';
 import EditorPage from './pages/editor/EditorPage';
 import NotFoundPage from './pages/NotFoundPage';
+import InviteAcceptPage from './pages/project/InviteAcceptPage';
 
 /**
  * Root application component.
@@ -119,6 +120,9 @@ const App = () => {
             </ProtectedRoute>
           }
         />
+
+        {/* ─── Invite Accept Route ──────────────────────────────── */}
+        <Route path="/invite/:token" element={<InviteAcceptPage />} />
 
         {/* ─── Redirects & Fallback ───────────────────────────── */}
         <Route path="/" element={<Navigate to="/dashboard" replace />} />

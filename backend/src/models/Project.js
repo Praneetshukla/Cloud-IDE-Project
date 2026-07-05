@@ -24,6 +24,12 @@ const projectSchema = new mongoose.Schema(
       ref: 'User',
       required: true,
     },
+    collaborators: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+      },
+    ],
     language: {
       type: String,
       enum: ['javascript', 'typescript', 'python', 'html', 'react', 'node', 'other'],
@@ -36,6 +42,14 @@ const projectSchema = new mongoose.Schema(
     lastAccessed: {
       type: Date,
       default: Date.now,
+    },
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
+    deletedAt: {
+      type: Date,
+      default: null,
     },
   },
   {

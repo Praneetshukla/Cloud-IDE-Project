@@ -9,7 +9,11 @@
     "lint": "eslint src/",
     "test": "jest --watchAll --verbose"
   },
-  "keywords": ["cloud-ide", "orbit", "api"],
+  "keywords": [
+    "cloud-ide",
+    "orbit",
+    "api"
+  ],
   "author": "Orbit Team",
   "license": "MIT",
   "dependencies": {
@@ -31,7 +35,9 @@
     "passport-github2": "^0.1.12",
     "passport-google-oauth20": "^2.0.0",
     "socket.io": "^4.7.5",
-    "streamifier": "^0.1.1"
+    "streamifier": "^0.1.1",
+    "ws": "^8.21.0",
+    "y-websocket": "^2.0.4"
   },
   "devDependencies": {
     "nodemon": "^3.1.4"

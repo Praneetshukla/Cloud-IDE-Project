@@ -21,9 +21,9 @@ const TerminalPanel = () => {
       // Initialize xterm.js
       const term = new Terminal({
         theme: {
-          background: '#0f111a',
-          foreground: '#e2e8f0',
-          cursor: '#818cf8',
+          background: 'transparent',
+          foreground: '#22d3ee', // Cyan default text
+          cursor: '#e879f9', // Fuchsia cursor
           black: '#000000',
           red: '#f87171',
           green: '#4ade80',
@@ -94,14 +94,19 @@ const TerminalPanel = () => {
   if (!isOpen) return null;
 
   return (
-    <div className="h-64 border-t border-[var(--color-border)] bg-[#0f111a] flex flex-col shrink-0 z-20 shadow-[0_-5px_15px_rgba(0,0,0,0.3)] relative">
+    <div className="h-64 border-t border-cyan-500/30 bg-surface/30 backdrop-blur-3xl flex flex-col shrink-0 z-20 shadow-[0_-5px_30px_rgba(34,211,238,0.1),inset_0_0_20px_rgba(34,211,238,0.05)] relative overflow-hidden group">
+      {/* Holographic Scanline Overlay */}
+      <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
+        <div className="w-full h-1 bg-cyan-400/20 blur-[1px] absolute top-0 animate-scanline"></div>
+      </div>
+
       {/* Terminal Header */}
-      <div className="h-9 flex items-center justify-between px-4 border-b border-[var(--color-border)] bg-[var(--color-bg-card)]">
-        <div className="flex items-center gap-2 text-xs font-semibold text-[var(--color-text-secondary)] uppercase tracking-wider">
+      <div className="h-9 flex items-center justify-between px-4 border-b border-cyan-500/20 bg-cyan-950/20 relative z-10">
+        <div className="flex items-center gap-2 text-[10px] font-bold text-cyan-400 uppercase tracking-widest">
           <HiOutlineTerminal className="h-4 w-4" />
-          <span>Terminal</span>
+          <span>Execution Output</span>
           {isExecuting && (
-             <span className="text-amber-400 normal-case tracking-normal ml-2 animate-pulse">Running...</span>
+             <span className="text-amber-400 bg-amber-500/10 border border-amber-500/20 px-2 py-0.5 rounded ml-2 animate-pulse">Running...</span>
           )}
         </div>
         
@@ -124,7 +129,7 @@ const TerminalPanel = () => {
       </div>
       
       {/* Terminal Body */}
-      <div className="flex-1 overflow-hidden p-2 relative">
+      <div className="flex-1 overflow-hidden p-3 relative z-10">
         <div ref={terminalRef} className="w-full h-full"></div>
       </div>
     </div>

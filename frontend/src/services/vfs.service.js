@@ -17,6 +17,7 @@ const vfsService = {
   
   // Files
   createFile: (data) => api.post(VFS_ENDPOINTS.FILES, data),
+  createBatchFiles: (data) => api.post(`${VFS_ENDPOINTS.FILES}/batch`, data),
   getFile: (id) => api.get(`${VFS_ENDPOINTS.FILES}/${id}`),
   updateFile: (id, data) => api.patch(`${VFS_ENDPOINTS.FILES}/${id}`, data),
   deleteFile: (id) => api.delete(`${VFS_ENDPOINTS.FILES}/${id}`),

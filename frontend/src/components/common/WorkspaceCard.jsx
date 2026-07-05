@@ -5,6 +5,7 @@ import { HiOutlineDotsVertical, HiOutlineUsers, HiOutlineCube, HiOutlinePencil, 
 import { formatDate, cn } from '../../utils/helpers';
 import { deleteWorkspace } from '../../redux/slices/workspaceSlice';
 import EditWorkspaceModal from '../workspaces/EditWorkspaceModal';
+import { MagneticCard } from './MagneticCard';
 
 const WorkspaceCard = ({ workspace }) => {
   const dispatch = useDispatch();
@@ -37,17 +38,12 @@ const WorkspaceCard = ({ workspace }) => {
 
   return (
     <>
-      <div 
-        className="group relative bg-surface/30 backdrop-blur-md border border-white/5 rounded-xl p-5 hover-lift hover-glow cursor-pointer overflow-hidden"
-        onClick={navigateToWorkspace}
-      >
-        {/* Center Spotlight radial glow */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(8,145,178,0.08)_0%,transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-0"></div>
+      <MagneticCard className="group bg-surface/30 backdrop-blur-md border border-white/5 rounded-xl p-5 cursor-pointer">
+        <div onClick={navigateToWorkspace} className="relative z-10 w-full h-full flex flex-col">
+          {/* Top laser line accent */}
+          <div className="absolute top-[-20px] left-[-20px] w-[calc(100%+40px)] h-[2px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
-        {/* Top laser line accent */}
-        <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-
-        <div className="flex justify-between items-start mb-4 relative z-10">
+          <div className="flex justify-between items-start mb-4 relative z-10">
           <div className={cn(
             "w-12 h-12 rounded-xl flex items-center justify-center text-white shadow-lg bg-gradient-to-br",
             workspace.color || "from-indigo-500 to-purple-600"
@@ -99,7 +95,8 @@ const WorkspaceCard = ({ workspace }) => {
           </div>
           <span>Updated {formatDate(workspace.updatedAt)}</span>
         </div>
-      </div>
+        </div>
+      </MagneticCard>
 
       <EditWorkspaceModal 
         isOpen={isEditModalOpen} 

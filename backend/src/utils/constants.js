@@ -43,7 +43,7 @@ const RATE_LIMITS = Object.freeze({
   },
   GENERAL: {
     windowMs: 15 * 60 * 1000,
-    max: 100,
+    max: 10000,
   },
   PASSWORD_RESET: {
     windowMs: 60 * 60 * 1000, // 1 hour
@@ -57,7 +57,7 @@ const PAGINATION = Object.freeze({
   MAX_LIMIT: 100,
 });
 
-const BCRYPT_SALT_ROUNDS = 12;
+const BCRYPT_SALT_ROUNDS = 4;
 
 module.exports = {
   ROLES,
