@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { HiOutlineMenu, HiOutlineCode, HiOutlinePlay, HiOutlineTerminal, HiOutlineSparkles, HiOutlineCog, HiOutlineLink } from 'react-icons/hi';
 import { VscFiles, VscSourceControl } from 'react-icons/vsc';
-import { fetchProjectTree, resetFileSystem, openFile } from '../../redux/slices/fileSystemSlice';
+import { fetchProjectTree, resetFileSystem, openFile, setInitialOpenFiles } from '../../redux/slices/fileSystemSlice';
 import { executeFile, toggleTerminal } from '../../redux/slices/terminalSlice';
 import { fetchRepository } from '../../redux/slices/gitSlice';
 import { fetchChatHistory } from '../../redux/slices/aiSlice';
@@ -38,6 +38,7 @@ const EditorPage = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [activeTab, setActiveTab] = useState('explorer');
   const [activeUsers, setActiveUsers] = useState([]);
+  const hasLoadedFromStorage = useRef(false);
 
   useEffect(() => {
     dispatch(fetchSettings());
@@ -46,11 +47,60 @@ const EditorPage = () => {
       dispatch(fetchProjectTree(projectId));
       dispatch(fetchRepository(projectId));
       dispatch(fetchChatHistory(projectId));
+      
+      const savedOpenFiles = localStorage.getItem(`IDE_OPEN_FILES_${projectId}`);
+      const savedActiveFileId = localStorage.getItem(`IDE_ACTIVE_FILE_${projectId}`);
+      if (savedOpenFiles) {
+        try {
+          const parsedOpenFiles = JSON.parse(savedOpenFiles);
+          if (parsedOpenFiles && parsedOpenFiles.length > 0) {
+            dispatch(setInitialOpenFiles({
+              openFiles: parsedOpenFiles,
+              activeFileId: savedActiveFileId && savedActiveFileId !== 'null' ? savedActiveFileId : null
+            }));
+          }
+        } catch (e) {
+          console.error("Failed to parse saved open files", e);
+        }
+      }
+      hasLoadedFromStorage.current = true;
     }
     return () => {
       dispatch(resetFileSystem());
     };
   }, [dispatch, projectId]);
+
+  // Persist open tabs and active file to localStorage
+  const isInitialMount = useRef(true);
+  
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
+    if (projectId && hasLoadedFromStorage.current) {
+      if (openFiles.length > 0) {
+        localStorage.setItem(`IDE_OPEN_FILES_${projectId}`, JSON.stringify(openFiles));
+      } else {
+        localStorage.removeItem(`IDE_OPEN_FILES_${projectId}`);
+      }
+    }
+  }, [projectId, openFiles]);
+
+  const isInitialMountForActiveFile = useRef(true);
+  useEffect(() => {
+    if (isInitialMountForActiveFile.current) {
+      isInitialMountForActiveFile.current = false;
+      return;
+    }
+    if (projectId && hasLoadedFromStorage.current) {
+      if (activeFileId) {
+        localStorage.setItem(`IDE_ACTIVE_FILE_${projectId}`, activeFileId);
+      } else {
+        localStorage.removeItem(`IDE_ACTIVE_FILE_${projectId}`);
+      }
+    }
+  }, [projectId, activeFileId]);
 
   // Socket.io: Join Project Room
   useEffect(() => {

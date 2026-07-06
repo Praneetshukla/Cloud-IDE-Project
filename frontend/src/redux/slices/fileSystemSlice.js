@@ -174,6 +174,10 @@ const fileSystemSlice = createSlice({
     updateFileContentLocal: (state, action) => {
       const { id, content } = action.payload;
       state.fileContents[id] = content;
+    },
+    setInitialOpenFiles: (state, action) => {
+      state.openFiles = action.payload.openFiles || [];
+      state.activeFileId = action.payload.activeFileId || null;
     }
   },
   extraReducers: (builder) => {
@@ -260,5 +264,5 @@ const fileSystemSlice = createSlice({
   }
 });
 
-export const { clearFileSystemError, resetFileSystem, openFile, closeFile, setActiveFile, updateFileContentLocal } = fileSystemSlice.actions;
+export const { clearFileSystemError, resetFileSystem, openFile, closeFile, setActiveFile, updateFileContentLocal, setInitialOpenFiles } = fileSystemSlice.actions;
 export default fileSystemSlice.reducer;
