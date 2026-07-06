@@ -44,7 +44,7 @@ const LoginForm = () => {
       {/* Header */}
       <div className="mb-8">
         <h2 className="text-2xl md:text-[32px] font-semibold text-text-primary tracking-tight leading-tight mb-2">
-          Welcome back
+          Welcome to Orbit
         </h2>
         <p className="text-sm md:text-[17px] text-text-secondary font-medium">
           Sign in to your Orbit workspace.

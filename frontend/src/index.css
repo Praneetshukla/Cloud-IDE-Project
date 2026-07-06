@@ -29,11 +29,11 @@
 
 .dark {
   /* Dark Mode Colors (Orbit Sleek Design) */
-  --color-bg-primary: #010204;
-  --color-bg-secondary: #03141a;
-  --color-bg-tertiary: rgba(12, 22, 38, 0.4);
-  --color-bg-card: rgba(8, 15, 26, 0.6);
-  --color-bg-input: rgba(3, 5, 10, 0.8);
+  --color-bg-primary: #060612;
+  --color-bg-secondary: #121028;
+  --color-bg-tertiary: rgba(20, 20, 45, 0.4);
+  --color-bg-card: rgba(15, 15, 30, 0.6);
+  --color-bg-input: rgba(10, 10, 20, 0.8);
 
   --color-text-primary: #f8fafc;
   --color-text-secondary: #94a3b8;

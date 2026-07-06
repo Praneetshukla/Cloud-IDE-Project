@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { HiOutlineMenu, HiOutlineCode, HiOutlinePlay, HiOutlineTerminal, HiOutlineSparkles, HiOutlineCog, HiOutlineLink } from 'react-icons/hi';
+import { HiOutlineMenu, HiOutlineCode, HiOutlinePlay, HiOutlineTerminal, HiOutlineSparkles, HiOutlineCog, HiOutlineLink, HiOutlineUsers } from 'react-icons/hi';
 import { VscFiles, VscSourceControl } from 'react-icons/vsc';
 import { fetchProjectTree, resetFileSystem, openFile, setInitialOpenFiles } from '../../redux/slices/fileSystemSlice';
 import { executeFile, toggleTerminal } from '../../redux/slices/terminalSlice';
@@ -38,7 +38,22 @@ const EditorPage = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [activeTab, setActiveTab] = useState('explorer');
   const [activeUsers, setActiveUsers] = useState([]);
+  
+  const [showCollabPopup, setShowCollabPopup] = useState(false);
+  const collabRef = useRef(null);
+  
   const hasLoadedFromStorage = useRef(false);
+
+  // Close collab popup on outside click
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (collabRef.current && !collabRef.current.contains(event.target)) {
+        setShowCollabPopup(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   useEffect(() => {
     dispatch(fetchSettings());
@@ -203,7 +218,7 @@ const EditorPage = () => {
 
             {/* Live Collaborators Avatars */}
             <div className="flex items-center -space-x-2 mr-2">
-              {activeUsers.map((u) => (
+              {activeUsers.slice(0, 3).map((u) => (
                 <div
                   key={u.socketId}
                   className="w-7 h-7 rounded-full border-2 border-surface/20 flex items-center justify-center text-[10px] font-bold text-white shadow-md relative group cursor-help"
@@ -218,9 +233,63 @@ const EditorPage = () => {
                   </div>
                 </div>
               ))}
+              {activeUsers.length > 3 && (
+                <div className="w-7 h-7 rounded-full border-2 border-surface/20 bg-gray-800 flex items-center justify-center text-[10px] font-bold text-white shadow-md relative z-10">
+                  +{activeUsers.length - 3}
+                </div>
+              )}
             </div>
 
-            <button onClick={handleShareProject} className="flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-md bg-indigo-500/20 text-indigo-400 hover:bg-indigo-500/30 transition-all cursor-pointer shadow-[0_0_10px_rgba(99,102,241,0.1)]"><HiOutlineLink className="h-4 w-4" />Share</button>
+            {/* Collab Popup Container */}
+            <div className="relative" ref={collabRef}>
+              <button 
+                onClick={() => setShowCollabPopup(!showCollabPopup)} 
+                className={`flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-md transition-all cursor-pointer shadow-[0_0_10px_rgba(99,102,241,0.1)] ${showCollabPopup ? 'bg-indigo-500/30 text-indigo-300' : 'bg-indigo-500/20 text-indigo-400 hover:bg-indigo-500/30'}`}
+              >
+                <HiOutlineUsers className="h-4 w-4" />Collab
+              </button>
+
+              {/* Popup */}
+              {showCollabPopup && (
+                <div className="absolute right-0 top-full mt-2 w-64 bg-[#0a0a14] border border-white/10 rounded-xl shadow-xl z-50 overflow-hidden animate-fade-in-up">
+                  <div className="p-3 border-b border-white/10 bg-white/[0.02]">
+                    <h3 className="text-xs font-semibold text-white uppercase tracking-wider mb-1">Collaborators ({activeUsers.length})</h3>
+                    <p className="text-[11px] text-gray-400">People currently in this project.</p>
+                  </div>
+                  
+                  <div className="max-h-48 overflow-y-auto p-2 flex flex-col gap-1">
+                    {activeUsers.length === 0 ? (
+                      <div className="text-xs text-gray-500 text-center py-2">No other active users</div>
+                    ) : (
+                      activeUsers.map((u) => (
+                        <div key={u.socketId} className="flex items-center gap-2 p-1.5 rounded-md hover:bg-white/5 transition-colors">
+                          <div className="w-6 h-6 rounded-full flex shrink-0 items-center justify-center text-[10px] font-bold text-white" style={{ backgroundColor: u.color }}>
+                            {u.name.charAt(0).toUpperCase()}
+                          </div>
+                          <div className="flex flex-col overflow-hidden">
+                            <span className="text-xs font-medium text-white truncate">{u.name}</span>
+                            {u.activeFileName && <span className="text-[10px] text-gray-400 truncate">Viewing {u.activeFileName}</span>}
+                          </div>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                  
+                  <div className="p-3 border-t border-white/10 bg-white/[0.02]">
+                    <button 
+                      onClick={() => {
+                        handleShareProject();
+                        setShowCollabPopup(false);
+                      }} 
+                      className="w-full flex items-center justify-center gap-2 text-xs font-medium px-3 py-2 rounded-md bg-indigo-600 hover:bg-indigo-500 text-white transition-colors cursor-pointer"
+                    >
+                      <HiOutlineLink className="h-4 w-4" /> Copy Invite Link
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+
             <button onClick={() => dispatch(toggleTerminal())} className="p-1.5 text-slate-400 hover:text-white rounded-md hover:bg-[var(--color-bg-tertiary)] transition-colors cursor-pointer" title="Toggle Terminal"><HiOutlineTerminal className="h-5 w-5" /></button>
             <button onClick={handleRunCode} disabled={!canRun || isExecuting} className={`flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-md transition-all ${!canRun ? 'bg-slate-700/50 text-slate-500 cursor-not-allowed' : isExecuting ? 'bg-amber-500/20 text-amber-400 cursor-wait' : 'bg-green-500/20 text-green-400 hover:bg-green-500/30 cursor-pointer shadow-[0_0_10px_rgba(74,222,128,0.1)]'}`}><HiOutlinePlay className="h-4 w-4" />{isExecuting ? 'Running...' : 'Run'}</button>
             <div className="w-px h-6 bg-white/10 mx-1" />

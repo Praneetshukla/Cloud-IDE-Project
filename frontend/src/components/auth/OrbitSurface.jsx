@@ -20,8 +20,20 @@ export const OrbitSurface = ({ children, className = '' }) => {
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setOpacity(1)}
       onMouseLeave={() => setOpacity(0)}
-      className={`w-full max-w-[390px] md:max-w-[424px] xl:max-w-[500px] xl:min-w-[440px] bg-[#020509]/80 rounded-[24px] border border-white/[0.06] shadow-[0_8px_32px_rgba(0,0,0,0.6),inset_0_1px_1px_rgba(255,255,255,0.05)] backdrop-blur-[32px] z-content relative overflow-hidden transition-all duration-500 hover:border-white/[0.12] ${className}`}
+      className={`w-full max-w-[390px] md:max-w-[424px] xl:max-w-[500px] xl:min-w-[440px] bg-[#050512]/80 rounded-[24px] border border-indigo-500/30 shadow-[0_0_30px_rgba(99,102,241,0.15),inset_0_1px_1px_rgba(255,255,255,0.05)] backdrop-blur-[32px] z-content relative overflow-hidden transition-all duration-500 hover:border-indigo-400/50 hover:shadow-[0_0_50px_rgba(99,102,241,0.3)] ${className}`}
     >
+      {/* Corner Border Enhancements */}
+      <div 
+        className="absolute inset-0 rounded-[24px] border border-indigo-300 pointer-events-none"
+        style={{
+          maskImage: 'radial-gradient(120px circle at top left, black, transparent), radial-gradient(120px circle at top right, black, transparent), radial-gradient(120px circle at bottom left, black, transparent), radial-gradient(120px circle at bottom right, black, transparent)',
+          WebkitMaskImage: 'radial-gradient(120px circle at top left, black, transparent), radial-gradient(120px circle at top right, black, transparent), radial-gradient(120px circle at bottom left, black, transparent), radial-gradient(120px circle at bottom right, black, transparent)',
+          WebkitMaskComposite: 'add',
+          maskComposite: 'add',
+          boxShadow: '0 0 20px rgba(129,140,248,0.8), inset 0 0 20px rgba(129,140,248,0.8)'
+        }}
+      ></div>
+
       {/* High-tech glowing top laser accent */}
       <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-accent/80 to-transparent opacity-80"></div>
       
