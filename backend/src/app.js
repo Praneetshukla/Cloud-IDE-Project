@@ -25,6 +25,9 @@ const apiLimiter = rateLimit({
  */
 const createApp = () => {
   const app = express();
+  
+  // Trust proxy is required for express-rate-limit to work correctly behind a reverse proxy (e.g. Render)
+  app.set('trust proxy', 1);
 
   // ─── Security Middleware ──────────────────────────────────────
   app.use(helmet({
