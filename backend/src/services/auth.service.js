@@ -246,6 +246,7 @@ const forgotPassword = async (email) => {
   try {
     await emailService.sendPasswordResetEmail(email, user.name, resetToken);
   } catch (error) {
+    console.error('Password reset email error:', error);
     // Clean up token on email failure
     user.passwordResetToken = undefined;
     user.passwordResetExpires = undefined;
