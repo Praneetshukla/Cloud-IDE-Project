@@ -15,15 +15,7 @@
 
 **Orbit Cloud IDE** is a full-stack, cloud-based Integrated Development Environment (IDE) that enables developers to write, execute, and collaborate on code directly from their browser. Built with a modern tech stack, it features a powerful code editor, an integrated terminal, real-time collaboration, and secure authentication.
 
-## 📸 Screenshots
 
-<!-- Developer Note: Replace these placeholder images with actual high-quality screenshots of your live application when ready. -->
-
-<p align="center">
-  <img src="https://via.placeholder.com/800x400.png?text=Landing+Page+Screenshot" alt="Landing Page" width="48%">
-  &nbsp;
-  <img src="https://via.placeholder.com/800x400.png?text=Editor+Workspace+Screenshot" alt="Editor Workspace" width="48%">
-</p>
 
 ## ✨ Features
 
@@ -59,9 +51,6 @@
 
 The architecture is built on a client-server model utilizing REST APIs for state and standard operations, alongside WebSockets for real-time collaborative editing and terminal sessions.
 
-<p align="center">
-  <img src="./block_diagram.png" alt="System Block Diagram" width="80%">
-</p>
 
 *(Additional diagram files such as `er_diagram.png` and `auth_flow.mmd` are included in the root directory for deeper architectural insights)*
 
