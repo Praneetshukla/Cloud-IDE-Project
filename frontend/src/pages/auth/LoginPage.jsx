@@ -82,7 +82,7 @@ const LoginPage = () => {
       </div>
 
       {/* 58% Stage (Authentication Space) */}
-      <div className="w-full lg:w-[58%] relative flex items-center justify-center lg:justify-start lg:pl-16 xl:pl-[120px] lg:pr-12 xl:pr-0 p-6 sm:p-12 z-content animate-fade-in-up animation-delay-100">
+      <div className="w-full lg:w-[58%] relative flex items-center justify-center p-6 sm:p-12 z-content animate-fade-in-up animation-delay-100">
         <div className="w-full max-w-[360px] hover-glow rounded-[24px] transition-all duration-300">
           <LoginForm />
         </div>

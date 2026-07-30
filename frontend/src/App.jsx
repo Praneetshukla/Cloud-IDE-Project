@@ -17,6 +17,9 @@ import ResetPasswordPage from './pages/auth/ResetPasswordPage';
 import VerifyEmailPage from './pages/auth/VerifyEmailPage';
 import OAuthCallbackPage from './pages/auth/OAuthCallbackPage';
 
+// Public Pages
+import LandingPage from './pages/public/LandingPage';
+
 // App Pages
 import DashboardPage from './pages/dashboard/DashboardPage';
 import ProfilePage from './pages/profile/ProfilePage';
@@ -125,7 +128,10 @@ const App = () => {
         <Route path="/invite/:token" element={<InviteAcceptPage />} />
 
         {/* ─── Redirects & Fallback ───────────────────────────── */}
-        <Route path="/" element={<Navigate to="/dashboard" replace />} />
+        <Route 
+          path="/" 
+          element={isAuthenticated ? <Navigate to="/dashboard" replace /> : <LandingPage />} 
+        />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </>
