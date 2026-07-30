@@ -1,0 +1,53 @@
+flowchart TD
+    Start(["User Visits Cloud IDE"])
+    Auth["Register / Login <br/> Email or GitHub SSO"]
+    IsNew{"New User?"}
+    Onboard["Setup Profile <br/> & Preferences"]
+    Dash["Project Dashboard <br/> View Recent Workspaces"]
+    
+    Editor["Cloud IDE Workspace <br/> Main Editor Interface"]
+    
+    FileMgt["File Management <br/> Create, Edit, Delete Files"]
+    TermMgt["Integrated Terminal <br/> Execute Code & Commands"]
+    Collab["Real-Time Collaboration <br/> Pair Programming via Sockets"]
+    GitMgt["Git Version Control <br/> Commit & Push to Repo"]
+    AIChat["AI Assistant <br/> Code Generation & Debugging"]
+    
+    EndNode(["Sync to Cloud & End"])
+
+    Start --> Auth
+    Auth --> IsNew
+    IsNew -- "Yes" --> Onboard
+    Onboard --> Dash
+    IsNew -- "No" --> Dash
+    
+    Dash -->|"Create / Open Project"| Editor
+    
+    Editor --> FileMgt
+    Editor --> TermMgt
+    Editor --> Collab
+    Editor --> GitMgt
+    Editor --> AIChat
+    
+    FileMgt --> EndNode
+    TermMgt --> EndNode
+    Collab --> EndNode
+    GitMgt --> EndNode
+    AIChat --> EndNode
+    
+    %% Colors mimicking the reference PDF (Page 6)
+    style Start fill:#ffe082,stroke:#ffb300,stroke-width:1px,color:#000
+    style Auth fill:#bbdefb,stroke:#1976d2,stroke-width:1px,color:#000
+    style IsNew fill:#ffcc80,stroke:#f57c00,stroke-width:1px,color:#000
+    style Onboard fill:#bbdefb,stroke:#1976d2,stroke-width:1px,color:#000
+    style Dash fill:#a5d6a7,stroke:#388e3c,stroke-width:1px,color:#000
+    
+    style Editor fill:#a5d6a7,stroke:#388e3c,stroke-width:1px,color:#000
+    
+    style FileMgt fill:#f8bbd0,stroke:#c2185b,stroke-width:1px,color:#000
+    style TermMgt fill:#f8bbd0,stroke:#c2185b,stroke-width:1px,color:#000
+    style Collab fill:#f8bbd0,stroke:#c2185b,stroke-width:1px,color:#000
+    style GitMgt fill:#f8bbd0,stroke:#c2185b,stroke-width:1px,color:#000
+    style AIChat fill:#f8bbd0,stroke:#c2185b,stroke-width:1px,color:#000
+    
+    style EndNode fill:#ffe082,stroke:#ffb300,stroke-width:1px,color:#000

@@ -1,0 +1,93 @@
+erDiagram
+    USERS ||--o{ PROJECTS : "owns"
+    USERS ||--o{ WORKSPACES : "collaborates in"
+    USERS ||--o| SETTINGS : "has"
+    USERS ||--o{ REFRESH_TOKENS : "secures session"
+    
+    PROJECTS ||--o{ WORKSPACES : "contains"
+    PROJECTS ||--o| GIT_REPOSITORIES : "tracks"
+    
+    WORKSPACES ||--o{ FOLDERS : "structures"
+    WORKSPACES ||--o{ FILES : "contains"
+    WORKSPACES ||--o{ TERMINAL_SESSIONS : "runs"
+    WORKSPACES ||--o{ AI_CHATS : "integrates"
+    
+    FOLDERS ||--o{ FILES : "holds"
+    FOLDERS ||--o{ FOLDERS : "nests"
+
+    USERS {
+        ObjectId _id PK
+        string username
+        string email
+        string password_hash
+        string role
+        date created_at
+    }
+    
+    PROJECTS {
+        ObjectId _id PK
+        ObjectId owner_id FK
+        string name
+        string description
+        string status
+        date created_at
+    }
+    
+    WORKSPACES {
+        ObjectId _id PK
+        ObjectId project_id FK
+        string name
+        array collaborators FK
+    }
+    
+    FILES {
+        ObjectId _id PK
+        ObjectId workspace_id FK
+        ObjectId folder_id FK
+        string name
+        string content
+        string language
+        number size
+    }
+    
+    FOLDERS {
+        ObjectId _id PK
+        ObjectId workspace_id FK
+        ObjectId parent_folder_id FK
+        string name
+    }
+    
+    GIT_REPOSITORIES {
+        ObjectId _id PK
+        ObjectId project_id FK
+        string remote_url
+        string current_branch
+        array commit_history
+    }
+    
+    TERMINAL_SESSIONS {
+        ObjectId _id PK
+        ObjectId workspace_id FK
+        string socket_id
+        string status
+    }
+    
+    AI_CHATS {
+        ObjectId _id PK
+        ObjectId workspace_id FK
+        array messages
+    }
+    
+    SETTINGS {
+        ObjectId _id PK
+        ObjectId user_id FK
+        string theme
+        string font_size
+    }
+    
+    REFRESH_TOKENS {
+        ObjectId _id PK
+        ObjectId user_id FK
+        string token
+        date expires_at
+    }

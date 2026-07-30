@@ -1,0 +1,12 @@
+graph TD
+    A([User accesses web app]) --> B[Enters login credentials]
+    B --> C{Backend verifies via Database}
+    C -- Failure --> D[Show Error Message]
+    C -- Success --> E[Frontend loads Editor Page]
+    E --> F[Frontend requests file tree via API]
+    F --> G[Backend retrieves file structure]
+    G --> H([Frontend renders File Explorer and Editor UI])
+    
+    style A fill:#4caf50,stroke:#388e3c,stroke-width:2px,color:#fff
+    style C fill:#ff9800,stroke:#f57c00,stroke-width:2px,color:#fff
+    style H fill:#2196f3,stroke:#1976d2,stroke-width:2px,color:#fff

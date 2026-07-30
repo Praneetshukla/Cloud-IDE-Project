@@ -1,0 +1,42 @@
+flowchart TD
+    classDef startEnd fill:#4caf50,stroke:#388e3c,stroke-width:2px,color:#fff
+    classDef decision fill:#ff9800,stroke:#f57c00,stroke-width:2px,color:#fff
+    classDef core fill:#2196f3,stroke:#1976d2,stroke-width:2px,color:#fff
+    classDef storage fill:#607d8b,stroke:#455a64,stroke-width:2px,color:#fff
+    classDef action fill:#e3f2fd,stroke:#1e88e5,stroke-width:1px,color:#000
+    classDef subgraphStyle fill:#f5f5f5,stroke:#bdbdbd,stroke-width:2px,stroke-dasharray: 5 5
+
+    A(["User Visits Website"]):::startEnd --> B{"Is Authenticated?"}:::decision
+    
+    subgraph Auth [Authentication Flow]
+        B -- "No" --> C["Login / Register Page"]:::action
+        C --> D("Authenticate via Database"):::action
+    end
+    
+    D --> E["User Dashboard"]:::action
+    B -- "Yes" --> E
+    
+    subgraph Dashboard [Project Initialization]
+        E --> F["Create or Select Project"]:::action
+        F --> G["Initialize Cloud IDE Workspace"]:::action
+    end
+    
+    G --> H(["Main Editor UI Loads"]):::core
+    
+    subgraph IDE [Cloud IDE Core Features]
+        H --> I["File Management"]:::action
+        H --> J["Real-Time Collaboration"]:::action
+        H --> K["Version Control / Git"]:::action
+        
+        I --> L("Save changes to Virtual File System"):::action
+        J --> M("Broadcast keystrokes via WebSockets"):::action
+        K --> N("Commit changes via Git CLI"):::action
+    end
+    
+    subgraph Backend [Backend Server & Storage]
+        L --> O(["Cloud Storage & Database"]):::storage
+        M --> O
+        N --> O
+    end
+    
+    class Auth,Dashboard,IDE,Backend subgraphStyle

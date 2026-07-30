@@ -1,0 +1,86 @@
+flowchart LR
+    %% Nodes with explicit newlines for attributes
+    USERS["USERS
+    ---------
+    id (PK)
+    username
+    email
+    password_hash
+    role
+    created_at"]
+
+    PROJECTS["PROJECTS
+    ---------
+    id (PK)
+    owner_id (FK)
+    name
+    description
+    status"]
+
+    WORKSPACES["WORKSPACES
+    ---------
+    id (PK)
+    project_id (FK)
+    name
+    collaborators (FK)"]
+
+    FILES["FILES
+    ---------
+    id (PK)
+    workspace_id (FK)
+    folder_id (FK)
+    name
+    content
+    size"]
+
+    FOLDERS["FOLDERS
+    ---------
+    id (PK)
+    workspace_id (FK)
+    parent_id (FK)
+    name"]
+
+    GIT_REPOS["GIT_REPOSITORIES
+    ---------
+    id (PK)
+    project_id (FK)
+    remote_url
+    branch"]
+
+    TERMINALS["TERMINAL_SESSIONS
+    ---------
+    id (PK)
+    workspace_id (FK)
+    socket_id
+    status"]
+
+    AI_CHATS["AI_CHATS
+    ---------
+    id (PK)
+    workspace_id (FK)
+    messages"]
+
+    %% Relationships (labeled arrows just like the reference)
+    USERS -- "owns / creates" --> PROJECTS
+    USERS -- "collaborates in" --> WORKSPACES
+    
+    PROJECTS -- "contains" --> WORKSPACES
+    PROJECTS -- "tracks" --> GIT_REPOS
+    
+    WORKSPACES -- "structures" --> FOLDERS
+    WORKSPACES -- "contains" --> FILES
+    WORKSPACES -- "runs" --> TERMINALS
+    WORKSPACES -- "integrates" --> AI_CHATS
+    
+    FOLDERS -- "holds" --> FILES
+    FOLDERS -- "nests" --> FOLDERS
+
+    %% Styling to mimic the reference PDF's blue boxes
+    style USERS fill:#c5cae9,stroke:#3f51b5,stroke-width:1px,color:#000,text-align:left
+    style PROJECTS fill:#c5cae9,stroke:#3f51b5,stroke-width:1px,color:#000,text-align:left
+    style WORKSPACES fill:#c5cae9,stroke:#3f51b5,stroke-width:1px,color:#000,text-align:left
+    style FILES fill:#c5cae9,stroke:#3f51b5,stroke-width:1px,color:#000,text-align:left
+    style FOLDERS fill:#c5cae9,stroke:#3f51b5,stroke-width:1px,color:#000,text-align:left
+    style GIT_REPOS fill:#c5cae9,stroke:#3f51b5,stroke-width:1px,color:#000,text-align:left
+    style TERMINALS fill:#c5cae9,stroke:#3f51b5,stroke-width:1px,color:#000,text-align:left
+    style AI_CHATS fill:#c5cae9,stroke:#3f51b5,stroke-width:1px,color:#000,text-align:left

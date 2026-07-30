@@ -1,0 +1,27 @@
+graph TD
+    A([User Visits Website]) --> B{Is Authenticated?}
+    B -- No --> C[Login / Register Page]
+    C --> D(Authenticate via Database)
+    D --> E[User Dashboard]
+    B -- Yes --> E
+    
+    E --> F[Create or Select Project]
+    F --> G[Initialize Cloud IDE Workspace]
+    G --> H([Main Editor UI Loads])
+    
+    H --> I[File Management]
+    H --> J[Real-Time Collaboration]
+    H --> K[Version Control / Git]
+    
+    I --> L(Save changes to Virtual File System)
+    J --> M(Broadcast keystrokes to other users via WebSockets)
+    K --> N(Commit changes to Server via Git CLI)
+    
+    L --> O([Cloud Storage Server])
+    M --> O
+    N --> O
+    
+    style A fill:#4caf50,stroke:#388e3c,stroke-width:2px,color:#fff
+    style B fill:#ff9800,stroke:#f57c00,stroke-width:2px,color:#fff
+    style H fill:#2196f3,stroke:#1976d2,stroke-width:2px,color:#fff
+    style O fill:#607d8b,stroke:#455a64,stroke-width:2px,color:#fff

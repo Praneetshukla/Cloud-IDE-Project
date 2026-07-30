@@ -1,0 +1,52 @@
+flowchart LR
+    classDef entity fill:#fff9c4,stroke:#fbc02d,stroke-width:2px,color:#000
+    classDef process fill:#a5d6a7,stroke:#388e3c,stroke-width:2px,color:#000
+    classDef datastore fill:#90caf9,stroke:#1976d2,stroke-width:2px,color:#000
+
+    User["User (Developer)"]:::entity
+    
+    Auth(("1.0
+    Authentication &
+    Session Mgt")):::process
+    
+    Workspace(("2.0
+    Workspace &
+    File System Mgt")):::process
+    
+    Collab(("3.0
+    Real-Time
+    Collaboration")):::process
+    
+    Terminal(("4.0
+    Integrated Terminal
+    & Execution")):::process
+    
+    Git(("5.0
+    Version Control
+    & Git Mgt")):::process
+
+    DB[("Database
+    (Users, Meta)")]:::datastore
+    
+    VFS[("Virtual File System
+    (Project Disk)")]:::datastore
+    
+    GitRepo[("Git Repositories
+    (Local)")]:::datastore
+
+    User -- "login / tokens" --> Auth
+    Auth -- "validate credentials" --> DB
+    
+    User -- "create / edit files" --> Workspace
+    Workspace -- "read / write content" --> VFS
+    Workspace -- "sync metadata" --> DB
+    
+    User -- "keystroke events" --> Collab
+    Collab -- "broadcast changes" --> User
+    
+    User -- "run shell commands" --> Terminal
+    Terminal -- "execute on files" --> VFS
+    
+    User -- "commit / push" --> Git
+    Git -- "write commits" --> GitRepo
+    Git -- "read file states" --> VFS

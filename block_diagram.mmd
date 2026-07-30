@@ -1,0 +1,45 @@
+flowchart TB
+    subgraph Client ["Client Side (Browser)"]
+        direction TB
+        UI[React UI & Components]
+        Redux[Redux State Management]
+        Editor[Code Editor Component]
+        WS_Client[WebSocket Client]
+        
+        UI <--> Redux
+        UI <--> Editor
+        Redux <--> WS_Client
+    end
+
+    subgraph Backend ["Backend API (Node.js/Express)"]
+        direction TB
+        Router[API Router & Middleware]
+        AuthCtrl[Auth Controller]
+        FSCtrl[File System Controller]
+        GitCtrl[Git Controller]
+        WS_Server[WebSocket Server]
+        
+        Router --> AuthCtrl
+        Router --> FSCtrl
+        Router --> GitCtrl
+    end
+
+    subgraph Storage ["Storage & Database Tier"]
+        direction TB
+        DB[(Database: Users & Metadata)]
+        VFS[(Virtual File System / Disk)]
+        GitRepo[(Local Git Repositories)]
+    end
+
+    %% Connections between tiers
+    UI <-->|REST API HTTP/HTTPS| Router
+    WS_Client <-->|Real-time Socket.io| WS_Server
+    
+    AuthCtrl <--> DB
+    FSCtrl <--> VFS
+    GitCtrl <--> GitRepo
+    
+    %% Styling
+    style Client fill:#e3f2fd,stroke:#1565c0,stroke-width:2px,color:#000
+    style Backend fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px,color:#000
+    style Storage fill:#fff3e0,stroke:#ef6c00,stroke-width:2px,color:#000
